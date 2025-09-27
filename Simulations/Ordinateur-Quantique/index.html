@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TER | Simulation des qubits</title>
+        <link rel="icon" href="../../src/icon.png" type="image/png">
+
+  <link rel="stylesheet" href="script-css/script.css"/>
+</head>
+<body>
+  <header>
+    <div class="logo"><a href="../../">TER | QML Quantique</a> </div>
+    <nav>
+      <ul>
+        <li><a href="../../#mentions_legals">Mentions légales</a></li>
+        <li><a href="#informations">Informations</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero" id="home">
+    <div class="hero-content" id="heroContent">
+      <p>Plongé au cœur d’un ordinateur quantique.</p> <br> 
+      <button class="btn" id="btn-start">Lancer la simulation</button>
+    </div>
+
+    <div class="hero-simulation"></div>
+
+    <aside class="controls-panel" id="controlsPanel" aria-hidden="true">
+      <div class="controls-header">
+        <h2>Hyperparamètres</h2>
+        <div class="chips">
+          <span class="chip"><strong>N:</strong> <span id="lblCount">0</span></span>
+          <span class="chip"><strong>T:</strong> <span id="lblTemp">50K</span></span>
+        </div>
+      </div>
+
+      <div class="controls-grid">
+        <label class="control">
+          <span class="control-label">Température</span>
+          <input type="range" id="tempSlider" min="0" max="300" step="1" value="50"/>
+        </label>
+
+        <label class="control">
+          <span class="control-label">Bruit</span>
+          <input type="range" id="noiseSlider" min="0" max="1" step="0.01" value="0.15"/>
+        </label>
+      </div>
+
+      <div class="controls-actions">
+        <button class="btn" id="btn-add">Ajouter un qubit</button>
+        <button class="btn" id="btn-remove">Retirer un qubit</button>
+      </div>
+      <fieldset class="gate-selector">
+  
+  <legend>Type de rayon </legend>
+  <div class="gate-options">
+    <input type="radio" name="gate" value="random" id="gate-random" checked>
+    <label for="gate-random">Aléatoire</label>
+
+    <input type="radio" name="gate" value="excite" id="gate-excite">
+    <label for="gate-excite">Excitation</label>
+
+    <input type="radio" name="gate" value="ground" id="gate-ground">
+    <label for="gate-ground">Fondamental</label>
+  </div>
+</fieldset>
+
+    </aside>
+    
+  </section>
+  <!-- Volet d'informations -->
+<section id="infoPanel" class="info-panel" aria-hidden="true">
+  <div class="info-content">
+  <button id="infoClose" class="info-close" aria-label="Fermer le volet">×</button>
+
+  <h2>À propos de la Simulation Quantique</h2>
+
+<p>Dans un ordinateur quantique, chaque qubit subit des opérations appelées <strong>portes quantiques</strong> : ce sont des transformations unitaires (rotations, inversions de phase, superpositions) qui font passer un qubit d’un état à un autre, ou le placent simultanément dans plusieurs états.</p>
+
+<p>La <strong>stabilité</strong> de ces états est un défi majeur : la <em>décohérence</em> — c’est-à-dire la perte de corrélation quantique sous l’effet des interactions avec l’environnement — peut détruire la superposition en quelques microsecondes. On doit donc isoler les qubits (cryogénie, blindage électromagnétique) et piloter leurs portes avec une extrême précision pour préserver l’information quantique.</p>
+
+  <h2>1. Superposition & Nuance de Couleur</h2>
+
+<p>
+  Chaque particule incarne un qubit pouvant exister simultanément dans l’état |0⟩ et |1⟩.  
+  On associe à ces deux états des couleurs extrêmes : le bleu profond pour |0⟩ et le rouge vif pour |1⟩.
+</p>
+
+<p>
+  En superposition, chaque qubit se décrit par deux amplitudes 
+  &alpha; et &beta; telles que 
+  |&alpha;|<sup>2</sup> + |&beta;|<sup>2</sup> = 1.  
+  La couleur de la particule est alors obtenue par interpolation linéaire entre le bleu et le rouge en fonction de la probabilité la plus forte.  
+  Par exemple, si |&alpha;|<sup>2</sup> = 0.8 et |&beta;|<sup>2</sup> = 0.2, la teinte tirera à 80 % vers le bleu et à 20 % vers le rouge, créant une nuance violette légère.
+</p>
+
+  <h2>2. Rayons & Contrôle d’État</h2>
+  <ul>
+    <li><strong>Aléatoire :</strong> applique une porte quantique aléatoire pour générer un nouvel état superposé.</li>
+    <li><strong>Fondamental :</strong> remet le qubit dans l’état |0⟩ (bleu), équivalent à l’état de base.</li>
+    <li><strong>Excité :</strong> place le qubit dans l’état |1⟩ (rouge).</li>
+  </ul>
+  <p>Ces “rayons” simulent l’application de portes quantiques qui fixent ou mélangent les états des qubits.</p>
+
+<h2>3. Hyperparamètres & Bruit</h2>
+<ul>
+  <li>
+    <strong>Température :</strong>  
+    inspirée des fluctuations thermiques, elle ajuste l’amplitude des vitesses des qubits selon une analogie à la loi de Maxwell–Boltzmann : la vitesse moyenne ⟨v⟩&nbsp;∝ √T.  
+    Plus la température est élevée, plus les particules se déplacent rapidement, ce qui augmente la fréquence des collisions et favorise l’émergence de nouvelles intrications quantiques.
+  </li>
+  <li>
+    <strong>Bruit :</strong>  
+    modélise les interactions imprévues du qubit avec son environnement. Il se traduit par des fluctuations aléatoires dans l’état  
+    <code>|ψ⟩ = α|0⟩ + β|1⟩</code>,  
+    qui font décroître les éléments hors-diagonaux ρ<sub>01</sub> et ρ<sub>10</sub> de la matrice densité.  
+    Un bruit intense provoque une décohérence rapide : la superposition perd sa cohérence et le qubit s’effondre vers un état classique.
+  </li>
+</ul>
+
+
+  <h2>4. Intrication & Liaisons</h2>
+
+<p>
+  En mécanique quantique, deux qubits sont dits <strong>intriqués</strong> lorsque leur état global ne peut pas se décrire comme le produit de leurs états individuels.  
+  Mathématiquement, un état de Bell typique s’écrit :
+  <code>(|00⟩ + |11⟩) / √2</code>,
+  ce qui signifie qu’on ne peut pas attribuer un état propre à chaque qubit séparément.
+</p>
+
+<p>
+  Dans la simulation, chaque collision porte la possibilité de créer cette <em>corrélation quantique</em> :  
+  on matérialise l’intrication par une ligne reliant les deux particules.  
+  Dès qu’ils sont intriqués, mesurer l’un des qubits (par exemple le forcer dans |0⟩) entraîne instantanément la projection de son partenaire dans le même résultat,  
+  quelle que soit la distance les séparant.
+</p>
+
+<p>
+  L’intrication est au cœur des protocoles avancés : téléportation quantique, superdense coding ou correction d’erreurs.  
+  En explorant les liaisons et leur dynamique, cette simulation illustre comment des paires de qubits intriqués peuvent transporter et transformer de l’information d’une manière purement quantique.
+</p>
+
+  <h2>5. Interactions Utilisateur</h2>
+<ul>
+  <li>
+    <strong>Température & Bruit :</strong>  
+    ajustez ces hyperparamètres pour contrôler la dynamique de vos qubits :  
+    <ul>
+      <li>hausse de température → vitesses plus élevées → collisions et intrications plus fréquentes;</li>
+      <li>hausse du bruit → décohérence accélérée → perte rapide de superposition.</li>
+    </ul>
+  </li>
+  <li>
+    <strong>Clic gauche :</strong>  
+    donne un coup d’énergie (« kick ») à un qubit, modifiant sa trajectoire et favorisant les interactions avec ses voisins.
+  </li>
+  <li>
+    <strong>Clic droit en collision :</strong>  
+    supprime une liaison d’intrication déjà formée, illustrant la destruction locale de la corrélation quantique.
+  </li>
+  <li>
+    <strong>Clic sur un qubit :</strong>  
+    envoie un laser qui simule l’application d’une porte quantique (Aléatoire, Fondamental, Excité).  
+    Cette action change immédiatement l’état du qubit et propage un spin aux qubits intriqués, comme dans un circuit quantique réel.
+  </li>
+</ul>
+
+<p>
+  En jouant sur la température et le bruit, vous explorez comment les conditions environnementales affectent la cohérence et les performances d’un processeur quantique.
+  En cliquant directement sur les qubits pour y projeter des lasers, vous simulez l’envoi de portes quantiques – c’est ainsi que l’on programme un circuit quantique dans la réalité.
+</p>
+
+
+  <p>Utilise les boutons pour ajouter/retirer des qubits et ajuste les paramètres pour explorer comment superposition, intrication et décohérence façonnent le calcul quantique.</p>
+</div>
+
+</section>
+
+  <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+  <script src="script-js/script.js"></script>
+  
+</body>
+</html>

@@ -1,0 +1,555 @@
+:root {
+  --clr-bg1: #0d0d1a;
+  --clr-bg2: #1a1630;
+  --clr-primary: #00d8ff;
+  --clr-accent: #ff00ff;
+  --duration: 0.6s;
+  --easing: cubic-bezier(0.23, 1, 0.32, 1);
+}
+.hero {
+  height: 100vh; /* toute la hauteur de la fenêtre */
+  margin: 0;
+  padding: 0;
+}
+
+.hero-simulation {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.hero-simulation iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Reset + base */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  background: linear-gradient(135deg, var(--clr-bg1), var(--clr-bg2));
+  background-size: 400% 400%;
+  animation: bgShift 20s ease infinite;
+  color: #eee;
+  overflow: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Animations */
+@keyframes bgShift {
+  0%,100% { background-position: 0% 50%; }
+  50%     { background-position: 100% 50%; }
+}
+@keyframes shine {
+  0% { left: -100%; }
+  100% { left: 200%; }
+}
+@keyframes pulseBg {
+  0%,100% { transform: scale(1); opacity: 0.7; }
+  50%     { transform: scale(1.2); opacity: 0.4; }
+}
+@keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+@keyframes popIn    { to { opacity: 1; transform: scale(1); } }
+
+/* Header */
+header {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 64px;
+  backdrop-filter: blur(12px);
+  background: rgba(10,10,30,0.75);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  z-index: 1000;
+}
+.logo {
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+  overflow: hidden;
+}
+.logo::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: rgba(255,255,255,0.1);
+  transform: skewX(-20deg);
+  animation: shine 2.5s ease infinite;
+}
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+nav a {
+  position: relative;
+  font-weight: 600;
+  color: #bbb;
+  padding: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-size: 0.95rem;
+  background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent));
+  background-size: 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: color 0.4s ease-in-out;
+}
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0;
+  width: 0; height: 2px;
+  background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent));
+  transition: width 0.4s ease-in-out;
+  border-radius: 1px;
+}
+nav a:hover {
+  color: #fff;
+  background-position: 100% 0;
+}
+nav a:hover::after {
+  width: 100%;
+}
+
+/* Hero section */
+.hero {
+  position: relative;
+  margin-top: 64px;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 1rem;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: radial-gradient(circle at 50% 50%, rgba(0,216,255,0.2), transparent 70%);
+  animation: pulseBg 8s ease-in-out infinite;
+  z-index: 0;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  transition: opacity 0.6s var(--easing);
+}
+.hero-content.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.hero-content p {
+  font-size: clamp(1rem, 3vw, 1.25rem);
+  color: var(--clr-primary);
+  margin-bottom: 2rem;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp var(--duration) 0.6s forwards;
+}
+.hero-content .btn {
+  background: var(--clr-primary);
+  color: #111;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  opacity: 0;
+  transform: scale(0.9);
+  animation: popIn var(--duration) 0.8s forwards;
+  transition: transform 0.3s, background 0.3s;
+}
+.hero-content .btn:hover {
+  background: var(--clr-accent);
+  transform: scale(1.05);
+}
+#btn-next {
+  display: none;
+  margin-top: 1rem;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.hero-simulation {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+.hero-simulation canvas {
+  display: block;
+  width: 100%; height: 100%;
+}
+
+/* Volet hyperparamètres */
+.controls-panel {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  width: min(380px, 92vw);
+  backdrop-filter: blur(16px);
+  background: rgba(15, 15, 35, 0.65);
+  border: 1px solid rgba(0,216,255,0.2);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(255,0,255,0.08);
+  border-radius: 12px;
+  padding: 1rem;
+  z-index: 1001;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity var(--duration) var(--easing), transform var(--duration) var(--easing);
+  pointer-events: none;
+}
+.controls-panel.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.controls-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: .75rem;
+}
+.controls-header h3 {
+  font-size: 1.05rem;
+  letter-spacing: 0.4px;
+  background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.chips { display: flex; gap: .5rem; }
+.chip {
+  padding: .25rem .5rem;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 999px;
+  font-size: .85rem;
+  color: #ddd;
+}
+
+.controls-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: .75rem;
+  margin-bottom: .75rem;
+}
+.control { display: grid; gap: .35rem; }
+.control-label {
+  font-size: .85rem;
+  color: #bbb;
+  letter-spacing: 0.3px;
+}
+
+/* Inputs range stylés */
+.controls-panel input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(90deg, rgba(0,216,255,0.45), rgba(255,0,255,0.45));
+  border-radius: 999px;
+  outline: none;
+}
+.controls-panel input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--clr-primary);
+  box-shadow: 0 0 0 4px rgba(0,216,255,0.15);
+  transition: transform .2s ease, border-color .2s ease;
+}
+.controls-panel input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.05);
+  border-color: var(--clr-accent);
+}
+
+.control-toggle { display: flex; align-items: center; gap: .5rem; }
+
+/* Boutons globaux (même esprit que .hero-content .btn) */
+.btn {
+  background: var(--clr-primary);
+  color: #111;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.25s, background 0.25s, box-shadow 0.25s;
+}
+.btn:hover {
+  background: var(--clr-accent);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(255,0,255,0.25);
+}
+.btn-ghost {
+  background: transparent;
+  color: #ddd;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+.btn-ghost:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+/* Assurer que le bouton Étape suivante apparaît après lancement */
+#btn-next { display: none; }
+#btn-next.visible { display: inline-block; }
+
+/* Styles pour le groupe de radio-buttons “Choisir une porte” */
+
+.gate-selector {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: rgba(15, 15, 35, 0.75);
+  border: 1px solid rgba(0, 216, 255, 0.2);
+  border-radius: 8px;
+}
+
+.gate-selector legend {
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--clr-primary);
+  margin-bottom: 0.75rem;
+}
+
+.gate-selector label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #ddd;
+  transition: color 0.3s;
+}
+
+.gate-selector label:hover {
+  color: #fff;
+}
+
+.gate-selector input[type="radio"] {
+  /* cache le contrôle natif sur certains navigateurs, mais conserve l’accessibilité */
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 2px solid var(--clr-primary);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition:
+    background 0.3s var(--easing),
+    border-color 0.3s var(--easing),
+    transform 0.2s;
+  position: relative;
+}
+
+.gate-selector input[type="radio"]::after {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 0.5rem; height: 0.5rem;
+  background: transparent;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: background 0.3s var(--easing),
+              transform 0.3s var(--easing);
+}
+
+.gate-selector input[type="radio"]:checked {
+  border-color: var(--clr-accent);
+  background: var(--clr-accent);
+}
+
+.gate-selector input[type="radio"]:checked::after {
+  background: #fff;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.gate-selector input[type="radio"]:hover {
+  transform: scale(1.1);
+  border-color: var(--clr-primary);
+}
+
+.gate-selector {
+  margin: 0.75rem 0;
+  padding: 0.75rem;
+  background: rgba(15, 15, 35, 0.65);
+  border: 1px solid rgba(0, 216, 255, 0.15);
+  border-radius: 10px;
+}
+
+.gate-selector legend {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--clr-primary);
+  margin-bottom: 0.5rem;
+}
+
+.gate-options {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+
+.gate-options input[type="radio"] {
+  display: none;
+}
+
+.gate-options label {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.75rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #ccc;
+  cursor: pointer;
+  transition: all 0.25s var(--easing);
+  text-align: center!important;
+  flex: 1;
+}
+
+.gate-options label:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border-color: var(--clr-primary);
+}
+
+.gate-options input[type="radio"]:checked + label {
+  background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent));
+  color: #111;
+  font-weight: 700;
+  box-shadow: 0 0 8px rgba(0, 216, 255, 0.25);
+  border-color: transparent;
+}
+
+/* Volet Informations — fullscreen overlay */
+.info-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  padding: 4rem 2rem;
+  background: rgba(15, 15, 35, 0.75);
+  backdrop-filter: blur(8px);
+  transform: translateY(-100%);
+  transition: transform 0.4s ease;
+  z-index: 1001;
+  overflow-y: auto;
+  color: #eee;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.info-panel.visible {
+  transform: translateY(0);
+}
+
+/* Conteneur du contenu — sans bloc de fond */
+.info-panel .info-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0;            /* plus de padding intérieur coloré */
+  background: none;      /* suppression du fond derrière le texte */
+}
+
+/* Titre */
+.info-panel h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Paragraphes */
+.info-panel p {
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+/* Liste */
+.info-panel ul {
+  list-style: disc inside;
+  margin-bottom: 1.5rem;
+}
+.info-panel ul li {
+  margin-bottom: 0.5rem;
+}
+
+/* Bouton fermer */
+.info-panel .info-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  font-size: 2.4rem;
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.info-panel .info-close:hover {
+  color: #fff;
+}
+
+
+/* Scrollbar personnalisé pour .info-panel */
+
+/* Firefox */
+.info-panel {
+  scrollbar-width: thin;
+  scrollbar-color: var(--clr-accent) rgba(15, 15, 35, 0.2);
+}
+
+/* WebKit (Chrome, Edge, Safari) */
+.info-panel::-webkit-scrollbar {
+  width: 8px;
+}
+
+.info-panel::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+iframe {
+  user-select: none;
+}
+
+.info-panel::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent));
+  border-radius: 4px;
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
+  transition: background 0.3s;
+}
+
+.info-panel::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, var(--clr-accent), var(--clr-primary));
+}
+
+.info-panel::-webkit-scrollbar-corner {
+  background: transparent;
+}

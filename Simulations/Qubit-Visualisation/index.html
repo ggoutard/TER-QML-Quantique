@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TER | Simulation d'un qubit</title>
+      <link rel="icon" href="../../src/icon.png" type="image/png">
+
+  <link rel="stylesheet" href="script-css/script.css"/>
+</head>
+<body>
+
+  <header>
+    <div class="logo"><a href="../../">TER | QML Quantique</a></div>
+    <nav>
+      <ul>
+        <li><a href="../../#mentions_legals">Mentions légales</a></li>
+        <li><a href="#informations" id="infoLink">Informations</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero" id="home">
+    <div class="hero-content" id="heroContent">
+  <p>Plongez dans l’univers quantique en découvrant un qubit et ses transformations visuelles à l’échelle microscopique.</p>
+      <button class="btn" id="btn-start">Lancer particules</button>
+    </div>
+
+    <div class="hero-simulation" id="simContainer"></div>
+
+    <aside class="controls-panel" id="controlsPanel" aria-hidden="true">
+  <!-- Onglets -->
+  <nav class="controls-tabs">
+    <button class="tab-btn active" data-tab="base-states">États de base</button>
+    <button class="tab-btn" data-tab="elementary-gates">Portes élémentaires</button>
+    <button class="tab-btn" data-tab="rotation">Rotation personalisée</button>
+  </nav>
+
+  <!-- 1) États de base du qubit -->
+  <div class="tab-content active" id="base-states">
+    <br>
+    <h2>États de base</h2>
+    <br>
+    <div class="state-buttons">
+      <button class="state-btn" data-state="0">|0⟩ Fondamental</button>
+      <button class="state-btn" data-state="1">|1⟩ Excité</button>
+    </div>
+  </div>
+
+  <!-- 2) Portes élémentaires -->
+  <div class="tab-content" id="elementary-gates">
+    <br>
+    <h2>Portes élémentaires</h2>
+    <br>
+    <div class="gate-buttons">
+      <button class="gate-btn" data-gate="X">X (NOT)</button>
+      <button class="gate-btn" data-gate="Y">Y</button>
+      <button class="gate-btn" data-gate="H">H (Hadamard)</button>
+      <button class="gate-btn" data-gate="Z">Z (Phase)</button>
+    </div>
+  </div>
+
+  <!-- 3) Rotation paramétrée -->
+<!-- 3) Rotation paramétrée -->
+<div class="tab-content" id="rotation">
+  <br>
+  <h2>Rotation personnalisée</h2>
+  <br>
+  <div class="control">
+    <div class="gate-buttons">
+      <button class="gate-btn rotation-btn active" id="id-R" data-gate="RX">RX</button>
+      <button class="gate-btn rotation-btn"        id="id-R" data-gate="RY">RY</button>
+      <button class="gate-btn rotation-btn"        id="id-R" data-gate="RZ">RZ</button>
+    </div>
+
+    <br>
+    <label for="rAngle">
+      Angle θ (rad)&nbsp;: <span id="rAngleVal">0.00</span>
+    </label>
+    <br>
+    <input
+      id="rAngle"
+      type="range"
+      min="0"
+      max="6.283"
+      step="0.01"
+      value="0"
+    >
+    <br>
+      <button class="btn" id="btnR">Appliquer R</button>
+      <br>
+
+  </div>
+  <br>
+</div>
+
+
+</aside>
+
+
+  </section>
+
+  <section id="infoPanel" class="info-panel" aria-hidden="true">
+    <div class="info-content">
+      <button id="infoClose" class="info-close" aria-label="Fermer">×</button>
+      <h2>À propos de la Simulation Quantique</h2>
+
+  <p>
+    Cette plateforme vous offre une visualisation 3D d’un qubit en superposition. 
+    Vous pouvez le faire tourner librement dans l’espace, appliquer des portes quantiques 
+    via un panneau interactif et consulter une vue « bas niveau » pour suivre l’évolution 
+    des amplitudes et de la matrice densité en temps réel.
+  </p>
+
+  <h2>Fonctionnalités principales</h2>
+  <ul>
+    <li>
+      <strong>Surbrillance de la particule</strong>
+      <ul>
+        <li>Le qubit s’illumine au passage de la souris pour en souligner la position.</li>
+        <li>Au clic, un volet latéral détaille ses paramètres quantiques (α, β, phases).</li>
+      </ul>
+    </li>
+    <li>
+      <strong>Rotation 3D</strong>
+      <ul>
+        <li>Glisser-déposer pour pivoter le qubit dans toutes les dimensions.</li>
+        <li>Contrôles « + / – » pour zoomer ou dézoomer.</li>
+      </ul>
+    </li>
+    <li>
+      <strong>Panneau de portes quantiques</strong>
+      <ul>
+        <li>Sélectionnez et enchaînez les portes suivantes :</li>
+      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>Porte</th>
+            <th>Symbole</th>
+            <th>Effet</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Hadamard</td>
+            <td>H</td>
+            <td>Place le qubit en superposition équilibrée</td>
+          </tr>
+          <tr>
+            <td>Pauli-X</td>
+            <td>X</td>
+            <td>Inverse les états &#124;0⟩ et &#124;1⟩</td>
+          </tr>
+          <tr>
+            <td>Pauli-Z</td>
+            <td>Z</td>
+            <td>Applique une phase π à l’état &#124;1⟩</td>
+          </tr>
+          <tr>
+            <td>Rotation</td>
+            <td>Rₜ</td>
+            <td>Rotation autour de l’axe X, Y ou Z</td>
+          </tr>
+          <tr>
+            <td>Mesure</td>
+            <td>M</td>
+            <td>Projection du qubit dans l’état &#124;0⟩ ou &#124;1⟩</td>
+          </tr>
+        </tbody>
+      </table>
+    </li>
+    <li>
+      <strong>Vue bas niveau</strong>
+      <ul>
+        <li>Affichage en temps réel des amplitudes α et β.</li>
+        <li>Visualisation de la matrice densité ρ et de ses éléments hors-diagonaux.</li>
+      </ul>
+    </li>
+  </ul>
+
+
+  <h2>Précision et limites</h2>
+  <p>
+    Cette simulation repose sur des algorithmes numériques et des approximations d’implémentation. 
+    Je souligne que des erreurs de troncature, d’arrondi ou de modélisation sont possibles. Bien qu’elle reflète fidèlement les principes fondamentaux 
+    de la mécanique quantique, elle ne prétend pas offrir une perfection absolue. Utilisez-la 
+    comme un outil pédagogique et expérimental, tout en gardant à l’esprit ses limites intrinsèques.
+  </p>
+  </section>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/three@0.155.0/examples/js/renderers/CSS2DRenderer.js"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.min.js"></script>
+  <script defer defer src="https://cdn.jsdelivr.net/npm/three@0.155.0/examples/js/renderers/CSS2DRenderer.js"></script>
+    <script defer src="script-js/qubit.js"></script>
+  <script defer src="script-js/script.js"></script>
+
+</body>
+</html>

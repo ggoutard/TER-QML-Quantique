@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="robots" content="noindex">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TER | Notebook</title>
+  <link rel="icon" href="../../src/icon.png" type="image/png">
+    <link rel="stylesheet" href="script-css/script.css"/>
+
+  <style>
+    :root {
+      --clr-bg1: #0d0d1a;
+      --clr-bg2: #1a1630;
+      --clr-primary: #00d8ff;
+      --clr-accent: #ff00ff;
+      --duration: 0.4s;
+      --easing: cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                   Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+                   sans-serif;
+      background: linear-gradient(135deg, var(--clr-bg1), var(--clr-bg2));
+      background-size: 400% 400%;
+      animation: bgShift 20s ease infinite;
+      color: #eee;
+    }
+
+    @keyframes bgShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Bandeau supérieur */
+    header {
+      flex: 0 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      background: rgba(10, 10, 30, 0.95);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 2;
+    }
+
+    .logo a {
+      color: var(--clr-primary);
+      font-size: 1.4rem;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 16px;
+    }
+
+    nav ul li a {
+      color: #eee;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: color var(--duration) var(--easing);
+    }
+
+    nav ul li a:hover {
+      color: var(--clr-primary);
+    }
+
+    /* Conteneur principal */
+    #main {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* Volet latéral */
+    #sidebar {
+      width: 280px;
+      background: rgba(10, 10, 30, 0.85);
+      backdrop-filter: blur(8px);
+      border-right: 1px solid rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      transform: translateX(0);
+      transition: transform var(--duration) var(--easing);
+      box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+
+    #sidebar.open {
+      transform: translateX(0);
+    }
+
+    #sidebar header {
+      padding: 24px;
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #sidebar header::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      transform: skewX(-20deg);
+      animation: shine 2.5s ease infinite;
+    }
+
+    @keyframes shine {
+      0%   { left: -100%; }
+      100% { left: 200%; }
+    }
+
+    #fileList {
+      list-style: none;
+      overflow-y: auto;
+      flex: 1;
+      padding: 8px 0;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.2) transparent;
+    }
+
+    #fileList::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    #fileList::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.2);
+      border-radius: 3px;
+    }
+
+    #fileList li {
+      padding: 16px 24px;
+      font-size: 1rem;
+      cursor: pointer;
+      color: #ccc;
+      position: relative;
+      transition: color var(--duration) var(--easing);
+    }
+
+    #fileList li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--clr-primary);
+      opacity: 0;
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: transform var(--duration) var(--easing),
+                  opacity var(--duration) var(--easing);
+    }
+
+    #fileList li:hover {
+      color: #fff;
+      background: rgba(255,255,255,0.05);
+    }
+
+    #fileList li:hover::before {
+      opacity: 1;
+      transform: scaleY(1);
+    }
+
+    #fileList li.active {
+      color: #fff;
+      background: rgba(0,216,255,0.1);
+      box-shadow: inset 4px 0 0 var(--clr-primary);
+      animation: pulse 2s ease infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { box-shadow: inset 4px 0 0 var(--clr-primary); }
+      50%     { box-shadow: inset 4px 0 0 var(--clr-accent); }
+    }
+
+    /* Contenu principal */
+    #content {
+      flex: 1;
+      position: relative;
+      padding: 100px;
+      overflow: hidden;
+    }
+
+    iframe#viewer {
+      width: calc(100% + 200px);
+      height: calc(100% + 200px);
+      margin: -100px;
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+      background: #111;
+      opacity: 0;
+      transform: scale(0.95);
+    }
+
+    @keyframes exitFrame {
+      to { opacity: 0; transform: scale(0.98); }
+    }
+
+    @keyframes enterFrame {
+      from { opacity: 0; transform: scale(0.98); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    #viewer.animate-out {
+      animation: exitFrame 0.3s ease forwards;
+    }
+
+    #viewer.animate-in {
+      animation: enterFrame 0.5s ease forwards;
+    }
+
+    /* Bouton de toggle */
+    #toggleBtn {
+      display: none;
+      position: absolute;
+      top: 20px;
+      left: 300px;
+      font-size: 1.6rem;
+      cursor: pointer;
+      color: #eee;
+      user-select: none;
+      z-index: 11;
+      transition: color 0.3s;
+    }
+
+    #toggleBtn:hover {
+      color: var(--clr-primary);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      #sidebar {
+        position: absolute;
+        left: -100%;
+        height: 100%;
+      }
+      #sidebar.open {
+        transform: translateX(100%);
+      }
+      #toggleBtn {
+        display: block;
+      }
+      #content {
+        padding: 80px 20px 20px;
+      }
+    }
+    #content {
+ 
+  padding-top: 150px;        /* espace vide au-dessus de l’iframe */
+}
+  </style>
+</head>
+<body>
+
+  <!-- Bandeau supérieur -->
+  <header>
+    <div class="logo">
+      <a href="../../">TER | QML Quantique</a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="../../#mentions_legals">Mentions légales</a></li>
+        <li><a href="#informations">À propos de la galerie de notebooks</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Conteneur principal : sidebar + contenu -->
+  <div id="main">
+    <aside id="sidebar">
+      <header>Notebooks</header>
+      <ul id="fileList">
+        <li onclick="loadFile('../src/1-Le qubit.html', this)">Le qubit</li>
+        <li onclick="loadFile('../src/2-Les portes quantique.html', this)">Les portes quantique</li>
+        <li onclick="loadFile('../src/3-L\'encodage des données.html', this)">L'encodage des données</li>
+        <li onclick="loadFile('../src/4-La serie de Fourier.html', this)">La série de Fourier</li>
+        <li onclick="loadFile('../src/5-De l\'encodage du quantique à la série de Fourier Quantique.html', this)">De l'encodage quantique à la série quantique</li>
+        <li onclick="loadFile('../src/6-Premier Modèle à un seul qubit.html', this)">Modèle à un seul qubit</li>
+        <li onclick="loadFile('../src/7-Les circuits quantiques.html', this)">Les circuits quantiques</li>
+        <li onclick="loadFile('../src/8-Les portes entremêlées.html', this)">Les portes entremêlées</li>
+        <li onclick="loadFile('../src/9-Le modèle d\'aproximation quantique.html', this)">Modèle d'approximation quantique</li>
+        <li onclick="loadFile('../src/10-L’expressivité des modèles quantiques.html', this)">Expressivité des modèles quantiques</li>
+        <li onclick="loadFile('../src/11-Anstaz.html', this)">L'ansatz</li>
+        <li onclick="loadFile('../src/12-Vers le deep learning.html', this)">Vers le deep learning</li>
+      </ul>
+    </aside>
+
+    <div id="content">
+      <iframe id="viewer" src=""></iframe>
+    </div>
+  </div>
+
+  <div id="toggleBtn" onclick="toggleSidebar()">☰</div>
+
+  <script>
+    const EXIT_DURATION = 300;
+
+    function animateOut(iframe, callback) {
+      iframe.classList.remove('animate-in');
+      iframe.classList.add('animate-out');
+      setTimeout(callback, EXIT_DURATION);
+    }
+
+    function animateIn(iframe) {
+      iframe.classList.remove('animate-out');
+      iframe.classList.add('animate-in');
+    }
+
+    function loadFile(path, elt) {
+      const iframe = document.getElementById('viewer');
+      animateOut(iframe, () => {
+        iframe.onload = () => {
+          animateIn(iframe);
+          iframe.onload = null;
+        };
+        iframe.src = path;
+      });
+      document.querySelectorAll('#fileList li').forEach(li => li.classList.remove('active'));
+      elt.classList.add('active');
+      if (window.innerWidth <= 768) {
+        document.getElementById('sidebar').classList.remove('open');
+      }
+    }
+
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const firstLi = document.querySelector('#fileList li');
+      if (!firstLi) return;
+      const match = firstLi.getAttribute('onclick').match(/'(.+)'/);
+      const initialPath = match ? match[1] : '';
+      firstLi.classList.add('active');
+      const iframe = document.getElementById('viewer');
+      iframe.onload = () => {
+        animateIn(iframe);
+        iframe.onload = null;
+      };
+      iframe.src = initialPath;
+    });
+
+    window.loadFile = loadFile;
+    window.toggleSidebar = toggleSidebar;
+  </script>
+  <section id="infoPanel" class="info-panel" aria-hidden="true">
+    <div class="info-content">
+      <button id="infoClose" class="info-close" aria-label="Fermer le volet">×</button>
+<section id="docInfo" class="doc-info">
+<h2>Notice</h2>
+  <p>
+    Cette galerie est constituée des notebooks exportés depuis Jupyter Notebook,  
+    un environnement interactif open-source largement utilisé dans la communauté  
+    scientifique et éducative. Les fichiers sources conservent la licence  
+    <strong>BSD à trois clauses (BSD-3-Clause)</strong> de Project Jupyter  
+    (<code>LICENSE</code>), et la mise en forme a été adaptée pour s’intégrer  
+    à la structure et à la charte graphique de ce site.
+  </p>
+
+  <h2>Philosophie de l’auteur</h2>
+  <p>
+    Chaque notebook raconte une histoire : du qubit élémentaire aux modèles  
+    quantiques avancés. Mon objectif est de rendre la complexité de la  
+    mécanique quantique aussi claire et intuitive que possible, en appliquant  
+    une mise en forme épurée, une navigation fluide et des visualisations  
+    interactives. La mise en page, les couleurs et les animations ont été  
+    pensées pour immerger le lecteur dans un univers sombre et technologique,  
+    propice à la concentration.
+  </p>
+
+
+  <h2>Modifications apportées au style</h2>
+<ul>
+  <li>Thème CSS ajusté pour s’harmoniser avec l’identité visuelle du site (couleurs, typographie, animations).</li>
+  <li>Injections JavaScript légères pour améliorer la navigation et désactiver la sélection de texte dans l’iframe.</li>
+  <li>
+    Les pages HTML sont issues d’une conversion automatisée par Jupyter Notebook :  
+    le contenu original de l’auteur est intégralement préservé et seul le style a été adapté  
+    pour respecter sa paternité.
+  </li>
+</ul>
+
+
+  <h2>Protections et conditions d’utilisation</h2>
+  <ul>
+    <li>La sélection de texte a été désactivée pour préserver les annotations et éviter la copie non autorisée.</li>
+    <li>Toute reproduction, redistribution ou utilisation commerciale sans autorisation constitue une atteinte aux droits de l’auteur.</li>
+  </ul>
+    <p>
+    La sélection de texte dans la documentation a été volontairement désactivée afin de préserver les éléments rédactionnels et les annotations propres à l’auteur.  
+    Cette mesure ne limite pas l’accès à l’information, mais vise à protéger le contenu original contre la copie non autorisée.
+  </p>
+<p>
+ Le contenu rédactionnel est protégé par le droit d’auteur. Toute utilisation non autorisée, y compris par des moyens techniques visant à contourner les protections mises en place, constitue une atteinte aux droits de l’auteur.  
+  Cette documentation est mise à disposition pour consultation uniquement, dans le respect des droits intellectuels et moraux de son créateur.
+</p>
+
+  <h2>Avertissement</h2>
+  <p>
+    Ce travail a été réalisé sur une période de <strong>dix semaines</strong>.  
+    Malgré le soin apporté, des erreurs peuvent subsister et je ne garantis  
+    pas l’exactitude absolue du contenu des notebooks. Utilisez ces documents  
+    de manière critique et n’hésitez pas à signaler toute incohérence.
+  </p>
+</section>
+  <h2>Licence de Project Jupyter</h2>
+<pre style="
+  background-color: #f5f5f5;
+  color: #2d2d2d;
+  border-left: 4px solid #007acc;
+  padding: 1rem;
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-x: auto;
+  border-radius: 4px;
+">                  # Licensing terms for Project Jupyter code
+
+This project is licensed under the terms of the 3-Clause BSD License (also
+known as New or Revised or Modified BSD License, or the BSD-3-Clause license),
+as follows:
+
+Copyright (c) YEAR Project Jupyter Contributors.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+## Explanation of Project Jupyter copyright policy
+
+Project Jupyter uses a shared copyright model. Each contributor maintains
+copyright over their contributions to Project Jupyter. These contributions are
+typically only changes to the repositories. Thus, Project Jupyter source code,
+in its entirety, is not the copyright of any single person or institution.
+Instead, Project Jupyter source code is the collective copyright of its
+contributors. If individual contributors want to maintain a record of what
+changes or contributions they have specific copyright on, they should indicate
+their copyright in the commit message of the change when they commit the
+change to one of the Project Jupyter repositories.
+
+With this in mind, the following banner should be used in any source code file
+to indicate the copyright and license terms:
+
+    # Copyright (c) Project Jupyter Contributors.
+    # Distributed under the terms of the 3-Clause BSD License.
+</pre>
+
+
+    </div>
+  </section>
+  <script src="script-js/script.js"></script>
+
+</body>
+</html>
