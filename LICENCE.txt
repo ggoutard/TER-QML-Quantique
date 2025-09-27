@@ -1,0 +1,36 @@
+
+CONDITIONS D’UTILISATION ET DE DISTRIBUTION
+
+Toute reproduction, représentation, adaptation ou diffusion,
+partielle ou intégrale, sur quelque support que ce soit,
+est interdite sans l’autorisation écrite préalable de l’auteur.
+
+SONT EXCLUS DE CETTE PROTECTION :
+- Les images et vidéos provenant de Pixabay (libres de droits – voir attributs alt dans le code source).
+- Le code généré automatiquement via Jupyter Notebook et pdoc.
+
+DÉTAILS DES LICENCES JUPYTER NOTEBOOK ET PDOC :
+- Consultez le fichier LICENSE du dépôt GitHub ainsi que les dossiers
+  notebooks/ et docs/.
+- Sur le site associé, reportez-vous à la section « À propos de la galerie de notebooks »
+  pour Jupyter Notebook et à la section « À propos de la documentation » pour pdoc,
+  situées en haut à droite de la section Mentions légales.
+
+PARTAGE ET CITATION
+Toute personne souhaitant partager ou citer un extrait de ce site
+doit obtenir l’accord explicite de l’auteur et indiquer clairement la source.
+
+RESPONSABILITÉ
+Malgré le soin apporté à la rédaction, des erreurs ou omissions peuvent subsister.
+L’auteur ne peut être tenu responsable des inexactitudes éventuelles.
+
+AUTEUR
+ggoutard
+
+CONTACT
+contact.ggoutard@gmail.com
+
+HÉBERGEUR
+GitHub, Inc.
+88 Colin P Kelly Jr St, San Francisco, CA 94107, USA
+Tél. : +1 415 200 4842

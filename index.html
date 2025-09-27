@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="robots" content="noindex">
+  <title>TER | Quantum Machine Learning</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" href="./src/icon.png" type="image/png">
+
+ <style>
+    /* =========================
+       Variables & Reset
+       ========================= */
+    :root {
+      --clr-bg1: #0d0d1a;
+      --clr-bg2: #1a1630;
+      --clr-primary: #00d8ff;
+      --clr-accent: #ff00ff;
+      --duration: 0.6s;
+      --easing: cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    *, *::before, *::after {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                   Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+                   sans-serif;
+      background: linear-gradient(135deg, var(--clr-bg1), var(--clr-bg2));
+      background-size: 400% 400%;
+      animation: bgShift 20s ease infinite;
+      color: #eee;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    @keyframes bgShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+strong {
+  color: var(--clr-primary);
+}
+
+    /* =========================
+       HEADER & NAV
+       ========================= */
+    header {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 64px;
+      backdrop-filter: blur(12px);
+      background: rgba(10,10,30,0.75);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; z-index: 1000;
+    }
+    .logo {
+      font-size: 1.4rem; font-weight: 700; text-transform: uppercase;
+      background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      position: relative; overflow: hidden;
+    }
+    .logo::after {
+      content: ''; position: absolute; top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: rgba(255,255,255,0.1);
+      transform: skewX(-20deg);
+      animation: shine 2.5s ease infinite;
+    }
+    @keyframes shine {
+      0%   { left: -100%; }
+      100% { left: 200%; }
+    }
+nav ul {
+  list-style: none; /* supprime les puces */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 2rem;
+}
+
+nav a {
+  position: relative;
+  font-weight: 600;
+  color: #bbb;
+  padding: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-size: 0.95rem;
+  transition: color 0.4s ease-in-out;
+  background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent));
+  background-size: 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Soulignement en dégradé animé */
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent));
+  transition: width 0.4s ease-in-out;
+  border-radius: 1px;
+}
+
+nav a:hover {
+  color: #fff;
+  background-position: 100% 0;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+    nav a:hover {
+      color: #fff;
+    }
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* =========================
+       HERO
+       ========================= */
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      text-align: center;
+      padding: 0 1rem;
+      overflow: hidden;
+    }
+    .hero {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero-video {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  filter: brightness(0.4);
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(4, 4, 255, 0.079); /* couleur plus uniforme et transparente */
+  backdrop-filter: blur(4px);    /* effet de flou comme ton header */
+  -webkit-backdrop-filter: blur(12px); /* compatibilité Safari */
+  z-index: 1;
+}
+
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+}
+
+    .hero::before {
+      content: '';
+      position: absolute; top:0; left:0;
+      width:100%; height:100%;
+      background: radial-gradient(circle at 50% 50%,
+                   rgba(0,216,255,0.2), transparent 70%);
+      animation: pulseBg 8s ease-in-out infinite;
+    }
+    @keyframes pulseBg {
+      0%,100% { transform: scale(1); opacity: 0.7; }
+      50%      { transform: scale(1.2); opacity: 0.4; }
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+      opacity: 0; transform: translateY(20px);
+      animation: fadeInUp var(--duration) 0.4s forwards;
+    }
+    .hero p {
+      font-size: clamp(1rem, 3vw, 1.25rem);
+      max-width: 700px;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 2rem;
+      opacity: 0; transform: translateY(20px);
+      animation: fadeInUp var(--duration) 0.6s forwards;
+    }
+    .hero .btn {
+      background: var(--clr-primary); color: #111;
+      padding: 0.75rem 2rem; border: none; border-radius: 4px;
+      font-weight: 600; cursor: pointer;
+      opacity: 0; transform: scale(0.9);
+      animation: popIn var(--duration) 0.8s forwards;
+      transition: transform 0.3s, background 0.3s;
+    }
+    .hero .btn:hover {
+      background: var(--clr-accent); transform: scale(1.05);
+    }
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes popIn {
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* =========================
+       SECTIONS “À PROPOS” & “SUPPORTS”
+       ========================= */
+    section {
+      padding: 6rem 2rem; text-align: center; position: relative;
+    }
+    #about {
+      background: rgba(10,10,30,0.6);
+    }
+    #about h2, #about p, #about blockquote {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.8s var(--easing),
+                  transform 0.8s var(--easing);
+    }
+    #about.visible h2,
+    #about.visible p,
+    #about.visible blockquote {
+      opacity: 1; transform: translateY(0);
+    }
+
+    #about blockquote {
+      max-width: 800px; margin: 2rem auto;
+      font-style: italic; color: #ccc;
+      border-left: 4px solid var(--clr-primary);
+      padding-left: 1rem; text-align: left;
+    }
+    #about a {
+      color: var(--clr-accent);
+      text-decoration: underline;
+    }
+
+    #resources {
+      background: rgba(10,10,30,0.8);
+    }
+    #resources h2, #resources .cards {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.8s var(--easing),
+                  transform 0.8s var(--easing);
+    }
+    #resources.visible h2,
+    #resources.visible .cards {
+      opacity: 1; transform: translateY(0);
+    }
+    .cards {
+      display: flex; flex-wrap: wrap;
+      gap: 2rem; justify-content: center;
+      margin-top: 2rem;
+    }
+    .card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 2rem; width: 260px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      transition: transform var(--duration),
+                  background var(--duration);
+    }
+    .card:hover {
+      transform: translateY(-10px);
+      background: rgba(0,216,255,0.1);
+    }
+    .card h3 {
+      margin-bottom: 1rem; color: var(--clr-primary);
+    }
+    .card p {
+      margin-bottom: 1rem; color: #ccc;
+    }
+    .card a {
+      color: var(--clr-accent); font-weight: 600;
+      transition: color var(--duration);
+    }
+    .card a:hover {
+      color: var(--clr-primary);
+    }
+
+    /* =========================
+       FOOTER
+       ========================= */
+    footer {
+      padding: 2rem; text-align: center;
+      color: #aaa;
+      backdrop-filter: blur(12px);
+      background: rgba(10,10,30,0.7);
+    }
+    footer strong {
+      color: var(--clr-primary);
+    }
+
+    /* =========================
+       RESPONSIVE
+       ========================= */
+    @media (max-width:768px) {
+      header { padding: 0 1rem; }
+      .hero { height: auto; padding: 4rem 1rem; }
+      section { padding: 4rem 1rem; }
+      nav ul { gap: 1rem; }
+    }
+    /* =========================
+   HERO
+   ========================= */
+.hero {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--clr-bg2) 30%, var(--clr-bg1) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  left: -20%;
+  width: 140%; height: 140%;
+  background: radial-gradient(circle at center,
+    rgba(0,216,255,0.15), transparent 70%);
+  animation: pulse 12s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,100% { transform: scale(1); opacity: 0.8; }
+  50%      { transform: scale(1.3); opacity: 0.4; }
+}
+
+.hero-content {
+  text-align: center;
+  color: #fff;
+  z-index: 1;
+}
+.section-about__quote {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding-left: 1rem;
+  border-left: 4px solid var(--clr-accent);
+  background: rgba(255,255,255,0.03);
+  color: #bbb;
+  font-style: italic;
+}
+
+.section-about__text {
+  max-width: 800px;
+  margin: auto;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #ddd;
+  text-align: justify;
+  padding: 1rem 0;
+}
+
+
+.hero-content h1 {
+  background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1rem;
+  animation: fadeInUp var(--duration) ease both 0.4s;
+}
+
+.hero-content .subtitle {
+  opacity: 0.9;
+  margin-bottom: 2rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center; /* ajout pour le centrage */
+  animation: fadeInUp var(--duration) ease both 0.6s;
+}
+
+
+.hero-content .btn {
+  background: var(--clr-primary);
+  color: #111;
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transform: scale(0.9);
+  opacity: 0;
+  animation: popIn var(--duration) ease both 0.8s;
+  transition: transform 0.3s, background 0.3s;
+}
+
+.hero-content .btn:hover {
+  background: var(--clr-accent);
+  transform: scale(1.05);
+}
+
+@keyframes fadeInUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes popIn {
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* =========================
+   SECTIONS
+   ========================= */
+section {
+  padding: 6rem 2rem;
+  text-align: center;
+  position: relative;
+  color: #eee;
+}
+
+.section-about {
+  background: rgba(10,10,30,0.7);
+}
+
+
+
+.section-about blockquote {
+  max-width: 800px;
+  margin: 2rem auto;
+  font-style: italic;
+  color: #ccc;
+  border-left: 4px solid var(--clr-primary);
+  padding-left: 1rem;
+  text-align: left;
+  opacity: 0; transform: translateX(-30px);
+  animation: fadeInUp var(--duration) ease both 0.6s;
+}
+
+.section-about p {
+  max-width: 800px;
+  margin: auto;
+  line-height: 1.8;
+  color: #ddd;
+  opacity: 0; transform: translateY(20px);
+  animation: fadeInUp var(--duration) ease both 0.8s;
+}
+
+.section-resources {
+  background: linear-gradient(135deg, var(--clr-bg2), var(--clr-bg1));
+}
+
+.section-resources h2 {
+  font-size: 2rem;
+  color: var(--clr-accent);
+  opacity: 0; transform: translateY(20px);
+  animation: fadeInUp var(--duration) ease both 0.4s;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  opacity: 0; transform: translateY(30px);
+  animation: fadeInUp var(--duration) ease both 0.6s;
+}
+
+.card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 2rem;
+  width: 260px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  transition: transform var(--duration), background var(--duration);
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  background: rgba(0,216,255,0.1);
+}
+
+.card h3 {
+  margin-bottom: 1rem;
+  color: var(--clr-primary);
+}
+
+.card p {
+  margin-bottom: 1rem;
+  color: #ccc;
+}
+
+.resource-button {
+  display: inline-block;
+  margin-top: 1rem;
+  font-weight: 600;
+  color: var(--clr-accent);
+  transition: color 0.3s ease;
+}
+
+.resource-button:hover {
+  color: var(--clr-primary);
+  text-decoration: underline;
+}
+
+/* =========================
+   FOOTER
+   ========================= */
+footer {
+  padding: 2rem;
+  text-align: center;
+  color: #aaa;
+  backdrop-filter: blur(12px);
+  background: rgba(10,10,30,0.7);
+}
+footer strong {
+  color: var(--clr-primary);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  section { padding: 4rem 1rem; }
+  nav ul { gap: 1rem; }
+}
+.section-about {
+  background: rgba(10,10,30,0.7);
+  padding: 6rem 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.section-resources {
+  background: linear-gradient(135deg, var(--clr-bg2), var(--clr-bg1));
+  padding: 6rem 2rem;
+  text-align: center;
+}
+
+.animated-quote {
+  position: relative;
+  max-width: 820px;
+  margin: 2.5rem auto;
+  padding: 1.5rem 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 5px solid transparent;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: #ddd;
+  line-height: 1.7;
+  text-align: justify;
+  overflow: hidden;
+  animation: fadeSlideIn 0.8s ease-out forwards;
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+/* Animation d'entrée */
+@keyframes fadeSlideIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Bordure dégradée animée */
+.animated-quote::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background: linear-gradient(180deg, #00d8ff, #ff00ff);
+  animation: borderGlow 4s ease-in-out infinite;
+}
+
+/* Animation du dégradé */
+@keyframes borderGlow {
+  0%, 100% {
+    background-position: top;
+  }
+  50% {
+    background-position: bottom;
+  }
+}
+
+/* Style du lien dans la citation */
+.animated-quote  {
+  font-weight: 600;
+  color: var(--clr-primary);
+  text-decoration: none;
+  background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent));
+  background-size: 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: background-position 0.4s ease, text-shadow 0.4s ease;
+  display: inline-block;
+}
+
+/* =========================
+   SECTION TITLES
+   ========================= */
+/* cible aussi bien tes h2 via classe .section-title que ceux de #about et #resources */
+.section-title,
+.section-resources h2 {
+  font-size: 48px; /* ⬆️ Taille augmentée ici */
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  position: relative;
+  background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fadeInUp var(--duration) ease both 0.4s;
+}
+
+
+
+/* petite barre animée sous chaque titre */
+.section-title::after,
+.section-resources h2::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 3px;
+  background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent));
+  border-radius: 2px;
+  animation: pulseBar 2s ease-in-out infinite;
+}
+.intro-image #achievement {
+  width: 600px; /* ou une taille fixe */
+  height: 400px;
+
+}
+
+.intro-image #idea{
+  margin-left: -70px;
+  margin-top: -70px;
+  margin-bottom: -70px;
+  margin-right: 100px;
+
+
+  height: 400px;
+  align-items: center;
+}
+
+.resource-section {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+  margin: 4rem 0;
+  flex-wrap: wrap;
+   margin-left: 10%;
+  margin-right: 10%;
+}
+
+.resource-section.reverse {
+  flex-direction: row-reverse;
+}
+
+.resource-image img {
+  width: 100%;
+  max-width: 340px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,216,255,0.1);
+}
+
+.resource-text {
+  flex: 1;
+  min-width: 280px;
+  color: #ccc;
+}
+
+.resource-text h3 {
+  font-size: 1.6rem;
+  color: var(--clr-primary);
+  margin-bottom: 1rem;
+ 
+}
+
+.resource-text p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+.resource-link {
+  display: inline-block;
+  font-weight: 600;
+  color: var(--clr-accent);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.resource-link:hover {
+  color: var(--clr-primary);
+}
+
+.educational-disclaimer {
+  position: relative;
+  margin: 2rem auto;
+  padding: 1.5rem 1.75rem;
+  max-width: 800px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-left: 4px solid var(--clr-accent);
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #ccc;
+}
+
+.educational-disclaimer::before {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-size: 1.5rem;
+  color: var(--clr-accent);
+}
+
+.educational-disclaimer strong {
+  color: var(--clr-primary);
+  font-weight: 700;
+}
+
+.educational-disclaimer p {
+  margin: 0;
+  text-align: justify;
+}
+.section-gallery::before,
+.section-gallery::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.1;
+  z-index: 0;
+}
+.section-gallery::before {
+  width: 350px; height: 350px;
+  background: var(--clr-primary);
+  top: -100px; left: -100px;
+}
+.section-gallery::after {
+  width: 250px; height: 250px;
+  background: var(--clr-accent);
+  bottom: -80px; right: -80px;
+}
+
+.section-gallery .section-title {
+  text-align: center;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+.section-gallery .section-subtitle {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 4rem;
+  color: rgba(255,255,255,0.85);
+  position: relative;
+  z-index: 1;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.gallery-item {
+  position: relative;
+  height: 320px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.5);
+  transform: translateY(0);
+  transition: transform 0.45s ease, box-shadow 0.45s ease;
+}
+
+.gallery-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: filter 0.4s ease;
+  filter: brightness(0.6);
+}
+
+.gallery-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  padding: 1.5rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.75), transparent);
+  width: 100%;
+}
+
+.gallery-info h3 {
+  font-size: 1.4rem;
+  color: var(--clr-primary);
+  margin-bottom: 0.3rem;
+}
+.gallery-info span {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.85);
+}
+
+.gallery-item:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.65);
+}
+
+.gallery-item:hover .gallery-video {
+  filter: brightness(1);
+}
+
+/* Lecture automatique au hover */
+.gallery-item:hover video {
+  autoplay: true;
+}
+
+.gallery-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  box-shadow: 0 0 100px rgba(0, 255, 255, 0);
+  transition: box-shadow 0.4s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.gallery-item:hover::after {
+  box-shadow: 0 0 60px rgba(0, 255, 255, 0.6);
+}
+
+/* =========================
+   SECTION “Cours intensif : Simulation Quantique”
+   ========================= */
+#faire-sa-simulation-quantique {
+  position: relative;
+  padding: 6rem 2rem;
+  background: linear-gradient(135deg, var(--clr-bg2), var(--clr-bg1));
+  overflow: hidden;
+}
+
+#faire-sa-simulation-quantique::before {
+  content: '';
+  position: absolute;
+  top: -40%; left: 50%;
+  width: 140%; height: 140%;
+  background: radial-gradient(circle at center,
+              rgba(0,216,255,0.1), transparent 70%);
+  transform: translateX(-50%);
+  animation: pulseBg 12s ease-in-out infinite;
+  z-index: 0;
+}
+
+@keyframes pulseBg {
+  0%,100% { transform: translateX(-50%) scale(1); opacity: 0.8; }
+  50%      { transform: translateX(-50%) scale(1.3); opacity: 0.4; }
+}
+
+#faire-sa-simulation-quantique .course-wrapper {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+  color: #eee;
+}
+
+#faire-sa-simulation-quantique .section-title {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1rem;
+  animation: fadeInUp var(--duration) ease both 0.4s;
+}
+
+#faire-sa-simulation-quantique .course-intro {
+  font-size: 1.2rem;
+  margin-bottom: 3rem;
+  color: rgba(255,255,255,0.9);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp var(--duration) ease both 0.6s;
+}
+
+#faire-sa-simulation-quantique .course-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp var(--duration) ease both 0.8s;
+}
+
+#faire-sa-simulation-quantique .step {
+  background: rgba(255,255,255,0.05);
+  padding: 2rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: transform var(--duration), background var(--duration);
+}
+
+#faire-sa-simulation-quantique .step:hover {
+  transform: translateY(-8px);
+  background: rgba(0,216,255,0.1);
+}
+
+#faire-sa-simulation-quantique .step h3 {
+  font-size: 1.4rem;
+  color: var(--clr-primary);
+  margin-bottom: 0.5rem;
+}
+
+#faire-sa-simulation-quantique .step p {
+  color: #ccc;
+  line-height: 1.6;
+}
+
+#faire-sa-simulation-quantique .section-btn {
+  padding: 0.8rem 2.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111;
+  background: var(--clr-primary);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  opacity: 0;
+  transform: scale(0.9);
+  animation: popIn var(--duration) ease both 1s;
+  box-shadow: 0 0 20px rgba(0,216,255,0.5);
+  transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+#faire-sa-simulation-quantique .section-btn:hover {
+  background: var(--clr-accent);
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(255,0,255,0.6);
+}
+
+
+
+
+
+  </style>
+  
+</head>
+<body>
+
+  <header>
+
+    <div class="logo">TER | QML Quantique</div>
+    <nav>
+      <ul class="menu">
+        <li><a href="#home">Accueil</a></li>
+        <li><a href="#mentions_legals">Mentions légales</a></li>
+        <li><a href="#ressources">Production et modélisations</a></li>
+        <li><a href="#faire-sa-simulation-quantique">Créer votre simulation </a></li>
+        
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO -->
+<section class="hero" id="home">
+  <video autoplay muted loop playsinline class="hero-video">
+    <source src="src/background.mp4" type="video/mp4" alt='from Pixabay' />
+    Votre navigateur ne supporte pas la vidéo.
+  </video>
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <br><br><br><br>
+    <h1>TER Quantum Machine Learning</h1>
+    <p class="subtitle">
+      <br>
+      <strong>Un projet de recherche universitaire</strong><br/>
+      <br>
+      <d class="gradient-bold">
+Première incursion du deep learning dans les qubits : un pas décisif vers l’ère de la suprématie quantique.      <br>
+      <br>
+    </p>
+    <button class="btn" onclick="scrollToSection('intro')">
+      Découvrir
+    </button>
+  </div>
+</section>
+<section class="section-intro" id="intro">
+    <h2 class="section-title">Le Projet</h2>
+
+  <p class="section-about__text">
+        Le machine learning quantique est une discipline en pleine effervescence, située au croisement vertigineux entre la physique fondamentale et l’intelligence artificielle moderne. Derrière ses promesses se jouent des transformations radicales : une nouvelle façon de coder, de penser, de traiter l’information, au sein d’une logique non-classique.
+
+        <br><br>
+        Ce site s’inscrit dans une démarche de vulgarisation scientifique engagée. Il propose une reconstruction illustrée  d’un article de recherche avancé, réimplémenté ligne par ligne dans un environnement Python, afin d’en éclairer la mécanique profonde et les tensions algorithmiques.
+        
+      </p>
+    </div>
+
+    <div style="display: flex; margin-left: 20%; margin-right: 0%;" class="intro-image">
+      <p class="section-about__text">      Chaque notebook est une étape d’ascension — du socle des fondamentaux jusqu’aux sommets expérimentaux. Ce projet trace le sentier d’une aventure intellectuelle où chaque ligne de code, chaque idée, chaque test devient une prise sur la paroi abrupte du savoir. L’objectif ? Élever la compréhension, rendre la science vivante, et offrir à chacun les outils pour gravir sa propre montagne algorithmique.
+</p>
+      <img id="achievement" src="src/achievement-5597527_1920.png" alt='from Pixabay'>
+    </div>
+</section>
+
+
+    <!-- À PROPOS -->
+    <section class="section-about" id="about">
+      
+      <h2 class="section-title">Présentation et portée du stage</h2>
+    
+
+
+  <p class="section-about__text">
+   Ce projet a été réalisé dans le cadre d’un stage universitaire de 10 semaines. Mon objectif était d’approfondir l’article cité ci-dessous en réimplémentant intégralement les modèles en Python, à partir de zéro, afin d’en tester la validité, d’analyser leur fonctionnement et de les rendre accessibles dans un cadre pédagogique. 
+   </p>
+   <blockquote class="animated-quote">
+      «&nbsp;<a href="https://arxiv.org/pdf/2008.08605" target="_blank" rel="noopener">
+        The Effect of Data Encoding on the Expressive Power of Variational Quantum Machine Learning Models
+      </a>&nbsp;», <br>
+  <br>
+  <div style="text-align: right;">– Maria Schuld, Ryan Sweke et Johannes Jakob Meyer (arXiv, 2020)</div>
+      
+    </blockquote>
+     <p class="section-about__text">
+   
+   L’ensemble de ce travail a été structuré sous forme de notebooks, organisés en modules progressifs, comme support de cours. Cette approche vise à favoriser la compréhension pas à pas, la reproductibilité des résultats, et l’acquisition de compétences pratiques en apprentissage machine quantique. 
+    <br><br>
+    <div style="display: flex; margin-left: 20%; margin-right: 0%;" class="intro-image">
+      <p class="section-about__text">     L’idée maîtresse qui a façonné ce projet repose sur un engagement inébranlable envers la clarté et la rigueur, tout en honorant la recherche originelle. Il ne s’agit pas de simplement reproduire des résultats, mais de s’immerger pleinement : apprendre avec curiosité, expérimenter sans crainte, et partager ouvertement chaque découverte. Chaque étape de ce travail reflète notre volonté d’aller au-delà du simple copier-coller scientifique pour faire naître une compréhension vivante et collective de l’innovation quantique.
+</p>
+      <img id="idea" src="src/ideas-5597530_1920.png" title="https://pixabay.com/fr/illustrations/id%C3%A9es-ic%C3%B4ne-en-pensant-r%C3%A9flexion-5597530/">
+    </div>
+   
+     <p class="section-about__text">
+
+    <br><br>
+<!-- Bloc de disclaimer pédagogique -->
+  <aside class="educational-disclaimer">
+    
+    <p>
+      <strong>Avertissement pédagogique :</strong><br>
+      Ce travail constitue un support à visée strictement pédagogique.  
+      Il ne revendique en aucun cas la paternité des découvertes originales  
+      et s’inscrit dans un hommage rigoureux et respectueux aux auteurs du modèle.  
+      Toute reproduction ou expérimentation réalisée ici vise avant tout  
+      à faciliter la compréhension et la diffusion du savoir.
+    </p>
+    <br>
+        <blockquote class="animated-quote" >
+  « <a href="https://www.dicocitations.com/citations/citation-84177.php" 
+        target="_blank" rel="noopener">
+      La science n’a pas de patrie, parce que le savoir est le patrimoine de l’humanité,  
+      le flambeau qui éclaire le monde.
+    </a> »<br>
+  <div style="text-align: right;">
+      <a  target="_blank"  href="https://fr.wikipedia.org/wiki/Louis_Pasteur">— Louis Pasteur</a>
+  </div>
+</blockquote>
+   <p>
+    <section id="mentions_legals" style="text-align: left;">
+    <strong>Mentions légales :</strong>
+    <br><br>
+    Le site et l’ensemble des contenus qui y sont publiés (textes, illustrations, schémas, etc.)  
+    sont protégés par le droit d’auteur. Toute reproduction, représentation, adaptation  
+    ou diffusion, partielle ou intégrale, sur quelque support que ce soit, est interdite  
+    sans l’autorisation écrite préalable de l’auteur.
+  </p>
+<br>
+  <p><strong>Sont exclus de cette protection :</strong></p>
+  <ul>
+    <li>Les images et vidéos provenant de Pixabay (libres de droits – voir attributs <code>alt</code> dans le code source).</li>
+    <li>Le code généré automatiquement via Jupyter Notebook et pdoc.</li>
+  </ul>
+
+  <br>
+  <p><strong>Détails des licences Jupyter Notebook et pdoc</strong></p>
+  <p>
+  <ul>
+    <li>Dans le dépôt GitHub du projet</li>
+    <li>Sur le site associé, dans :
+      <ul>
+        <li>Section « À propos de la galerie de notebooks » (Jupyter Notebook)</li>
+        <li>Section « À propos de la documentation » (pdoc)</li>
+      </ul>
+      situées en haut à droite de la section Mentions légales (dans les pages générées par ces modules).
+    </li>
+  </ul>
+  </p>
+<br>
+  <p>
+    Toute personne souhaitant partager ou citer un extrait de ce site doit obtenir  
+    l’accord explicite de l’auteur et indiquer clairement la source.
+  </p>
+<br>
+  <p>
+    Malgré le soin apporté à la rédaction, des erreurs ou omissions peuvent subsister.  
+    L’auteur ne peut être tenu responsable des inexactitudes éventuelles.
+  </p>
+  <br>
+
+  <p>
+    Tous droits réservés. Ce principe s’applique à l’ensemble des contenus  
+    et sur l’intégralité du site, hors éléments expressément exclus ci-dessus.
+  </p>
+
+  <br>
+  <p>
+    <strong>Auteur :</strong> ggoutard
+  </p>
+  <p>
+    <strong>Contact :</strong>
+    <a href="mailto:contact.ggoutard@gmail.com">contact.ggoutard@gmail.com</a>
+  </p>
+  <p>
+    <br>
+    <strong>Hébergeur :</strong><br>
+    GitHub, Inc.<br>
+    88 Colin P Kelly Jr St, San Francisco, CA 94107, USA<br>
+    Tél. : +1 415 200 4842
+  </p>
+</aside>
+
+    <br>
+    <br>
+
+  </p>
+    </section>
+
+
+        <!-- Modules & Doc Python	 -->
+    <section class="section-resources" id="ressources">
+
+<h2 class="section-title title">Modules & Doc Python</h2>
+
+<p class="section-about__text">Cette section est le cœur actif du projet : un espace de ressources techniques, pensées pour expérimenter, comprendre et construire. On y trouve les notebooks du projet, véritables cartes topographiques de l’apprentissage quantique, ainsi que la documentation Python qui outille chaque étape du parcours. Ici, la théorie devient manipulation, l’idée devient programme, et le savoir devient outil.</p>
+
+<!-- contenu -->
+     <div class="resource-section">
+    <div class="resource-image">
+      <img src="src/ai-generated-9104931_1920.png" alt='from Pixabay'>
+    </div>
+    <div class="resource-text">
+      <h3 class="pictureTittle">Espace d'apprentissage</h3>
+      <p class="section-about__text">
+       Une série de notebooks guidés, pensée comme une véritable ascension algorithmique — du socle des principes fondamentaux jusqu’aux hauteurs théoriques les plus audacieuses. Chaque module est conçu pour accompagner pas à pas l’apprenant dans sa découverte du machine learning quantique, à travers des expériences concrètes, des manipulations interactives, et des éclairages sur la logique profonde des modèles. 
+      </p>
+      <a href="./Notebook/accueil/index.html" class="resource-link">Voir les notebooks</a>
+    </div>
+  </div>
+
+  <div class="resource-section reverse">
+    <div class="resource-image">
+      <img src="src/ai-generated-9104936_1920.png" alt='from Pixabay'>
+    </div>
+    <div class="resource-text">
+      <h3 class="pictureTittle" >Espace de programmation</h3>
+      <p class="section-about__text">
+Cette documentation regroupe les modules Python utilisés dans le projet, accompagnés d'instructions pour les installer et les comprendre. Elle permet de suivre la logique de chaque composant, d'explorer les fonctions essentielles et de saisir les fondements des circuits quantiques simulés. Il ne s’agit pas d’une interface interactive, mais d’un support technique structuré, pensé pour faciliter l’apprentissage et la reproduction des expérimentations.     
+  </p>
+ <a href="./Documentation/accueil/index.html" class="resource-link">Voir la documentation</a></div>
+  
+    </section>
+
+<!-- =========================
+     SECTION RESSOURCES – STRUCTURE HTML
+     ========================= -->
+<section class="section-gallery" id="modelisations">
+  <h2 class="section-title">Galerie des modélisations</h2>
+  <br>
+
+
+<div class="gallery-grid">
+    <div class="gallery-item">
+      <a
+        href="Simulations/Ordinateur-Quantique/index.html"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="video-link"
+      >
+        <video
+          class="gallery-video"
+          muted
+          loop
+          preload="metadata"
+        >
+          <source
+          alt='from Pixabay'
+            src="src/5205-183786544_medium.mp4"
+            type="video/mp4"
+          >
+        </video>
+     
+      <div class="gallery-info">
+        <h3>Les qubits dans un ordinateur quantique</h3>
+
+        <span>Plongé au cœur d’un ordinateur quantique.</span>
+      </div> </a>
+    </div>
+
+<div class="gallery-item">
+  <a
+    href="Simulations/Qubit-Visualisation/index.html"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="video-link"
+  >
+    <video
+    
+      class="gallery-video"
+      muted
+      loop
+      preload="metadata"
+    >
+      <source
+        alt='from Pixabay'
+        src="src/129309-743827421_medium.mp4"
+        type="video/mp4"
+      >
+    </video>
+
+  <div class="gallery-info">
+    <h3>L’intérieur d’un qubit</h3>
+    <span>Admirez la simulation d’un qubit, suspendu en superposition entre plusieurs états.</span>
+  </div>
+    </a>
+</div>
+</div>
+
+
+
+</section>
+
+<!-- SECTION COURS INTENSIF QUANTIQUE -->
+<section id="faire-sa-simulation-quantique" class="section-faire-sa-simulation-quantique">
+  <div class="course-wrapper">
+    <h2 class="section-title">Créer votre simulation quantique</h2>
+    <br>
+    <br>
+    <span class="course-intro">
+      Passez de la théorie à la pratique en Python : <br> Rédigez, simulez et analysez vos qubits dans le cadre d’un cours destiné à construire votre propre simulateur quantique.
+    </span>
+    <br>
+    <br>
+    <br>
+    <div class="course-steps"> <div class="step"> <h3>Fondations quantiques</h3> <p>Créez la classe Qubit et le dictionnaire de portes pour modéliser états, amplitudes et opérations unitaires.</p> </div> <div class="step"> <h3>Syntaxe & Parsing</h3> <p>Formalisez une notation linéaire pour vos circuits, développez un parser/lexer et générez la grille d’exécution.</p> </div> <div class="step"> <h3>Orchestration évolutive</h3> <p>Orchestrez l’application des portes, composez des primitives dynamiques et collectez les mesures pour analyser vos résultats.</p> </div> </div>
+    <a href="Faire-Sa-Simulation/index.html">
+    <button class="section-btn">
+          Commencer le cours 
+    </button></a>
+  </div>
+</section>
+
+
+
+
+
+
+  </main>
+
+  <footer>
+    <p><strong>TER | QML Quantique</strong> — @ 2025 </p>
+  </footer>
+
+  <script>
+    function scrollToSection(id) {
+      document.getElementById(id)
+        .scrollIntoView({ behavior: 'smooth' });
+    }
+    // Intersection Observer pour révéler les sections
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.2 });
+  document.querySelectorAll('.gallery-item').forEach(item => {
+    const video = item.querySelector('video');
+    item.addEventListener('mouseenter', () => video.play());
+    item.addEventListener('mouseleave', () => {
+      video.pause();
+      video.currentTime = 0;
+    });
+  });
+</script>
+
+
+</body>
+</html>
+
