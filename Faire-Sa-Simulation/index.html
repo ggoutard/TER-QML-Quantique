@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>TER | Quantum Machine Learning</title>
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" href="../src/icon.png" type="image/png">
+<link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+
+  <link rel="stylesheet" href="script-css/script.css">  
+</head>
+<body>
+
+  <header>
+
+    <div class="logo"><a href="../">TER | QML Quantique</a></div>
+    <nav>
+      <ul class="menu">
+        <li><a href="#home">Haut de page</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+
+    <!-- HERO -->
+
+
+<section class="hero" id="home">
+  <video autoplay muted loop playsinline class="hero-video">
+    <source src="../src/82360-577813663_small.mp4" type="video/mp4" alt='from Pixabay' />
+    Votre navigateur ne supporte pas la vidéo.
+  </video>
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+
+<h1>Bienvenue dans ce cours <br> pour concevoir ta simulation quantique</h1>
+  </div>
+ 
+</section>
+
+
+<section class="section-intro" id="intro">
+  <br>
+  <h2 class="section-title">Objecif du cours</h2>
+
+  <p class="section-about__text"> L’objectif de ce cours est de t’apprendre les mécanismes quantiques à bas niveau, et non de te fournir un simple copier-coller dénué de compréhension. Ce type de projet valorise ton CV en démontrant ta maîtrise des fondements théoriques de la logique quantique. En suivant attentivement chaque étape, tu poses la première pierre d’un projet encore plus ambitieux, mettant en avant ta capacité à comprendre et à mettre en pratique la structure sous-jacente d’une simulation quantique de haut niveau. Ce tutoriel, inédit en français, adopte une approche polymorphe réutilisable dans divers contextes pour nourrir et enrichir d’autres domaines. </p>
+
+  <br>
+  <br>
+  <br>
+  <h2 class="section-title">Mention légale</h2>
+   <p class="section-about__text">La présente œuvre pédagogique, comprenant textes, extraits de code protégés par le droit d’auteur.
+  Elle est fournie à titre expérimental : je ne suis pas un expert en informatique quantique et ce cours, susceptible d’évolutions, peut contenir des imprécisions ou des erreurs.
+  Toute reproduction, représentation, adaptation ou utilisation, en tout ou partie, sans l’autorisation écrite préalable de l’auteur est strictement interdite et constitue une violation des droits d’auteur pouvant engager votre responsabilité.
+  Le partage intégral ou partiel de ce cours doit faire l’objet d’une convention écrite préalable avec l’auteur.
+  <br><br>
+    <strong>Notice :</strong> Cette œuvre pédagogique, comprenant textes et extraits de code, est fournie à titre expérimental et peut contenir des imprécisions.  
+    Pour consulter l’intégralité des mentions légales et conditions de reproduction,  
+    <a href="../#mentions_legals" style="color: #00d8ff;">cliquez ici</a>.</p>
+</div>
+
+<br>
+  <br>
+  <br>
+<section class="sommaire-section">
+  <h2 class="section-title">Sommaire</h2>
+  <ul class="sommaire">
+    <li>
+      <a href="#introduction">Introduction : Pourquoi faire une simulation quantique ?</a>
+      <ul>
+        <li><a href="#developper-un-savoir-faire">Développer un savoir-faire</a></li>
+        <li><a href="#reapprendre-a-apprendre">Réapprendre à apprendre</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#chapitre-1">Chapitre 1 : Concevoir une simulation quantique</a>
+      <ul>
+        <li><a href="#simulateur-theorique">Un simulateur théorique</a></li>
+        <li><a href="#simulateur-avec-decoherence-quantique">Un simulateur avec décohérence quantique</a></li>
+        <li><a href="#fonctionnalites">Fonctionnalités de la simulation</a></li>
+        <li><a href="#architecture">Architecture modulaire</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#chapitre-2">Chapitre 2 : Le Qubit et les Portes Quantiques</a>
+      <ul>
+        <li><a href="#qubit">Le Qubit</a></li>
+         <li><a href="#Le-dictionnaire-des-portes-quantiques-fondamentales">Le dictionnaire des portes quantiques fondamentales</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#chapitre-3">Chapitre 3 : De l’instruction arithmétique à la syntaxe formelle</a>
+      <ul>
+        <li><a href="#la-mesure-dun-qubit">La mesure d’un qubit</a></li>
+        <li><a href="#vers-une-syntaxe-formelle">Vers une syntaxe formelle</a></li>
+        <li><a href="#Un-dictionnaire-de-portes-quantiques">Un dictionnaire de portes quantiques</a></li>
+        <li><a href="#Un-parser-lexer-de-syntaxe-quantique">Un parser/lexer de syntaxe quantique</a></li>
+
+
+      </ul>
+    </li>
+    <li>
+      <a href="#chapitre-4">Chapitre 4 : Une simulation évolutive</a>
+      <ul>
+        <li><a href="#interet-evolutivite">L’intérêt de l’évolutivité</a></li>
+        <li><a href="#extension-dictionnaire">Extension du dictionnaire de portes</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#chapitre-final">Chapitre final : Orchestration de la simulation</a>
+      <ul>
+        <li><a href="#Orchestrer-une-simulation-theorique">Orchestrer une simulation théorique</a></li>
+        <li><a href="#Orchestrer-une-simulation-quantique-naturelle">Orchestrer une simulation quantique naturelle</a></li>
+
+      </ul>
+    </li>
+    <li>
+      <a href="#conclusion">Conclusion : La fin d’un voyage quantique</a>
+      <ul>
+        <li><a href="#Un-parcours-d-apprentissage">Un parcours d'apprentissage</a></li>
+        <li><a href="#Genese-d-un-Genome-Quantique">Genèse d’un Génome Quantique</a></li>
+
+      </ul>
+    </li>
+  </ul>
+
+</section>
+</section>
+
+
+<section class="hero" id="introduction">
+  <video autoplay muted loop playsinline class="hero-video">
+    <source src="../src/82360-577813663_small.mp4" type="video/mp4" alt='from Pixabay' />
+    Votre navigateur ne supporte pas la vidéo.
+  </video>
+
+  <div class="hero-overlay"></div>
+
+
+  <div class="hero-content">
+
+    <h1>INTRODUCTION<br> Pourquoi faire une simulation quantique ? </h1>
+
+  </div>
+</section>
+
+<section class="section-intro" id="intro">
+  <br>
+  <section id="developper-un-savoir-faire">
+  <h2 class="section-title">Développer un savoir-faire</h2>
+
+  <p class="section-about__text">
+
+    
+    <br>
+Le travail d’un développeur est comme un sculpteur, il ne taille pas la pierre, mais il façonne l’invisible. Il donne vie au minéral comme le développeur insuffle une étincelle à l’ordinateur. C’est un orfèvre, qui cisèle des circuits logiques avec la précision d’un maître-joaillier.
+
+En entreprenant une simulation quantique from scratch, le développeur endosse le rôle d’alchimiste moderne. 
+Il part de rien : de la définition des qubits jusqu’à l’assemblage des portes quantiques, chaque ligne de code devient un fil d’or reliant la théorie à la réalité numérique. Cette démarche minutieuse livre une compréhension profonde des phénomènes de superposition et d’intrication, loin de l’abstraction des bibliothèques toutes faites.
+</p>
+    
+  <p class="section-about__text">
+Et surtout, retenez ceci : maîtriser un simulateur quantique est la preuve ultime de votre agilité algorithmique. Et pour emprunter les mots de Richard Feynman :
+Comme le disait Feynman :</p>
+
+<blockquote class="animated-quote" > « <a href="https://echosciences.nouvelle-aquitaine.science/articles/la-mecanique-quantique" target="_blank" rel="noopener">
+   Si vous croyez comprendre la mécanique quantique c’est que vous ne la comprenez pas</a> »<br> <div style="text-align: right;"> <a target="_blank" href="https://fr.wikipedia.org/wiki/Richard_Feynman">— Richard Feynman</a> </div> </blockquote>
+  </p>
+  <br>
+  
+    <p class="section-about__text">
+Si tu fais cette simulation quantique, tu ne comprendras pas l’origine ; tu découvriras un horizon encore inconnu. Tu seras alors le pavise de l’omniscience, non plus un simple concepteur, mais un artisan de l’avenir.</p>
+</section>
+<br><br><br><br><br>
+<section id="reapprendre-a-apprendre">
+<h2 class="section-title">Réapprendre à apprendre</h2>
+<p class="section-about__text" style="display: flex; align-items: flex-start;">
+  <span style="flex: 1; margin-right: 20px;">
+    <br>
+    Coder une simulation quantique ou inventer une nouvelle méthode d’apprentissage, 
+    c’est bien plus qu’un exercice technique : c’est une école de pensée. 
+    À chaque ligne, le développeur ne se contente pas de résoudre un problème, 
+    il réapprend à apprendre.  
+    <br><br>
+    En concevant une architecture qui explore l’inconnu, il construit en même temps 
+    son propre savoir sur le monde. Le code devient alors un miroir : il reflète 
+    nos limites, mais aussi notre capacité à les dépasser.  
+    <br><br>
+    Dans ce processus, le développeur n’est plus seulement un artisan du numérique, 
+    il devient un bâtisseur de connaissances, un explorateur qui trace des chemins 
+    nouveaux dans la carte encore inachevée de la compréhension humaine.
+  </span>
+  <br>
+</p>
+</section>
+</section>
+<section class="hero" id="chapitre-1">
+  <video autoplay muted loop playsinline class="hero-video">
+    <source src="../src/82360-577813663_small.mp4" type="video/mp4" alt='from Pixabay' />
+    Votre navigateur ne supporte pas la vidéo.
+  </video>
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+
+    <h1>CHAPITRE 1<br> Concevoir une simulation quantique </h1>
+
+  </div>
+</section>
+<section class="section-intro" id="intro">
+<br>
+<br>
+<br>
+
+<section id="simulateur-theorique">
+  <h2 class="section-title">Un simulateur théorique</h2>
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+  Dans ce projet, nous avons volontairement limité notre approche à la mise en place 
+  d’un <em>modèle purement théorique</em>. Cette contrainte implique plusieurs choses : 
+  d’une part, elle permet d’obtenir des résultats rapides et cohérents en se concentrant 
+  sur la logique mathématique et la rigueur des portes idéales ; d’autre part, elle 
+  exclut volontairement les aspects matériels et les imperfections physiques.  
+  <br><br>
+  En pratique, cela signifie que nous travaillons dans un cadre où les qubits sont 
+  parfaits, les opérations unitaires exactes et les mesures exemptes de bruit. 
+  Cette simplification rend le modèle plus accessible et reproductible, mais elle 
+  suppose aussi que les résultats obtenus ne reflètent pas encore les contraintes 
+  réelles d’un calculateur quantique physique.
+</p>
+</section>
+<br>
+<br>
+<br>
+<section id="simulateur-avec-decoherence-quantique">
+<h2 class="section-title">Un simulateur avec décohérence quantique</h2>
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+  Le développement d’un simulateur quantique soulève inévitablement la question 
+  des <em>incohérences</em> : comment gérer les écarts entre un modèle théorique parfait 
+  et les comportements observés dans des environnements réels ?  
+  <br><br>
+  Les grands acteurs du domaine, comme <strong>PennyLane</strong> ou <strong>IBM Quantum</strong>, 
+  intègrent déjà des modules avancés de bruit, de transpilation et de calibration. 
+  Se positionner face à eux ne signifie pas les concurrencer directement, mais plutôt 
+  proposer une alternative complémentaire : un outil plus léger, plus pédagogique, 
+  qui met l’accent sur la compréhension des fondements avant d’aborder la complexité 
+  des implémentations industrielles.  
+  <br><br>
+  Cette orientation suggère une stratégie claire : commencer par un socle théorique 
+  robuste, puis ouvrir progressivement la voie à des extensions (modèles d’erreurs, 
+  canaux quantiques, incohérences de mesure) afin de rapprocher la simulation de la 
+  réalité expérimentale, tout en gardant une identité propre.
+</p>
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+  Une piste plus ambitieuse consisterait à <em>coder ces incohérences logiques</em> 
+  sous forme d’<strong>hyperparamètres</strong>, permettant de moduler le niveau de bruit, 
+  la stabilité des portes ou encore la fidélité des mesures. Dans une telle approche, 
+  les qubits pourraient être représentés dans une <strong>simulation 3D</strong> 
+  de l’<em>espace de Hilbert</em>, offrant une visualisation dynamique des états et de 
+  leurs évolutions. Cette perspective ouvrirait la voie à un simulateur capable 
+  d’intégrer progressivement des contraintes réalistes, tout en conservant une 
+  lisibilité pédagogique.
+  <br><br>
+  Par exemple, on pourrait modéliser la <strong>collision entre deux qubits</strong> 
+  comme un événement rare mais critique : cette interaction provoquerait une 
+  <em>décohérence quantique</em>, c’est-à-dire la perte de la superposition, 
+  et pourrait même altérer ou briser les <em>intrications</em> établies. 
+  Un tel scénario, paramétré comme une probabilité d’événement dans la simulation, 
+  permettrait d’explorer les limites de la robustesse des algorithmes quantiques 
+  face aux perturbations imprévues.
+<p>
+  <p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+
+
+  Toutefois, nous ne développerons pas cette dimension dans le cadre présent. 
+  Retenez simplement que ces extensions constituent des <strong>pistes de recherche</strong> 
+  prometteuses : elles vous invitent, en tant que lecteur, à imaginer comment un modèle 
+  théorique peut se transformer en un outil expérimental plus riche. 
+  <br><br>
+  Si vous choisissez d’explorer ces voies, sachez que cela vous portera vers 
+  <strong>le plus haut niveau de compréhension</strong> : celui où la théorie, la pratique 
+  et l’expérimentation se rejoignent pour bâtir une vision complète de la simulation 
+  quantique.
+</p>
+</section>
+<br>
+<br>
+<br>
+
+<section id="fonctionnalites">
+
+<h2 class="section-title">Fonctionnalités dans la simulation quantique</h2>
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+  Notre projet se présente avant tout comme une <strong>mathématisation</strong> : 
+  il repose sur un <strong>langage de notation</strong> conçu pour représenter la 
+  <em>syntaxe quantique</em>. Cette approche offre une opportunité unique de 
+  <strong>monter rapidement en abstraction</strong>, en évitant les tâches répétitives 
+  et rébarbatives liées à la manipulation directe des circuits élémentaires. 
+  En structurant la logique quantique sous forme de symboles et de règles de composition, 
+  ce langage devient un outil polyvalent : il permet de <strong>formaliser des circuits</strong> 
+  de manière claire et compacte, mais aussi d’ouvrir la voie à d’autres applications, 
+  comme la <strong>représentation génomique de circuits</strong> ou 
+  <strong>l’apprentissage automatique</strong> de cette notation par des 
+  <em>modèles de langage (LLM)</em>.
+</p>
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+  Le but de notre simulation est double. D’une part, elle s’inscrit dans le domaine de la 
+  <strong>numérisation</strong> et de la <strong>calculabilité</strong> : il s’agit de vérifier 
+  dans quelle mesure un modèle théorique peut être implémenté efficacement, en exploitant 
+  des portes quantiques élémentaires au sein de circuits simulés. D’autre part, elle ouvre 
+  la voie à des <strong>applications en deep learning</strong>, où la puissance de la 
+  simulation quantique pourrait enrichir ou accélérer certains algorithmes d’apprentissage.
+</p>
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+  Ainsi, notre démarche dépasse la simple simulation : elle propose un 
+  <strong>cadre symbolique et expérimental</strong> qui peut servir de passerelle entre 
+  la théorie, la pratique et l’automatisation. Dans ce cadre, le rôle du lecteur est essentiel : 
+  il ne s’agit pas seulement de suivre une démonstration technique, mais d’<strong>évaluer la pertinence du travail présenté</strong>. 
+  Cette évaluation doit porter sur la capacité du modèle à servir de tremplin vers d’autres 
+  domaines, qu’il s’agisse de l’optimisation d’architectures neuronales, de la simulation 
+  de phénomènes physiques complexes ou encore de l’exploration de nouvelles méthodes hybrides 
+  entre calcul classique et quantique.
+</p>
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+  En d’autres termes, notre projet n’est pas une fin en soi : il constitue un 
+  <strong>outil d’évaluation et de projection</strong>. Il permet de mesurer la faisabilité 
+  d’un modèle théorique, d’identifier ses limites, et d’imaginer son évolution vers des 
+  applications concrètes dans des domaines émergents. C’est dans cette perspective que le lecteur est invité à juger la valeur du travail : l’usage qu’il peut en tirer personnellement et pour les horizons qu’il ouvre dans ses propres explorations de demain.
+</p>
+
+</section>
+
+
+<br>
+<br>
+<br>
+
+<section id="architecture">
+<h2 class="section-title">Une architecture pour une simulation théorique </h2>
+
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+L’architecture de notre projet repose sur une organisation modulaire, pensée pour refléter 
+  les différentes couches d’abstraction d’une simulation quantique théorique. Chaque composant 
+  joue un rôle précis dans la construction, l’interprétation et l’exécution des circuits.  
+  <br><br>
+  Cette structure respecte les principes du <strong>Clean Code</strong> : séparation claire des responsabilités, 
+  lisibilité, réutilisabilité et évolutivité. Elle favorise une compréhension rapide du fonctionnement 
+  global, tout en permettant des modifications ciblées sans impact sur l’ensemble.  
+  <br><br>
+  De plus, cette architecture est <strong>transposable dans n’importe quel langage</strong> orienté objet ou modulaire, 
+  comme <em>C++</em>, <em>Java</em>, <em>Rust</em>, <em>TypeScript</em> ou même <em>Go</em>. Les concepts de classes, 
+  de dictionnaires, de gestionnaires et de moteurs d’exécution sont universels et peuvent être adaptés 
+  selon les paradigmes du langage choisi.  
+  <br><br>
+  En ce sens, notre projet ne se limite pas à une implémentation Python : il propose une <strong>architecture 
+  conceptuelle portable</strong>, qui peut servir de base à des développements dans des environnements 
+  industriels, embarqués ou haute performance.
+</p>
+
+<pre style="text-align: left; background: #0f0f0f; color: #e0e0e0; padding: 20px; border-radius: 8px; max-width: 900px; margin: 0 auto 24px; font-family: monospace; font-size: 0.95em;">
+quantum-sim/
+├── qubit.py                # Définition de la classe Qubit : état, manipulation, normalisation
+├── gates_dict.py           # Dictionnaire des portiques quantiques : matrices unitaires, alias, signatures
+├── syntax_manager.py       # Gestionnaire de syntaxe : parsing, notation symbolique, validation
+├── simulator_core.py       # Moteur de simulation : application des portes, construction des blocs
+</pre>
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+  Notre architecture repose sur cinq modules principaux, chacun dédié à une fonction précise dans la simulation quantique. Leur découpage respecte les principes du Clean Code et peut être transposé dans n’importe quel langage structuré.
+</p>
+
+<ul style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+  <li><strong>qubit.py</strong> — Définit la structure et le comportement d’un qubit : initialisation, remise à zéro, mesure en base Z, lecture d’état et normalisation dans l’espace de Hilbert.</li>
+
+  <li><strong>gates_dict.py</strong> — Regroupe les portes quantiques sous forme de matrices unitaires (X, H, RX, CNOT, etc.), avec leurs alias et signatures pour une utilisation standardisée.</li>
+
+  <li><strong>syntax_manager.py</strong> — Interprète la notation symbolique des circuits : parsing, validation, conversion en instructions exécutables, et gestion des erreurs de syntaxe.</li>
+
+  <li><strong>simulator_core.py</strong> — Coordonne l’application des portes sur les qubits : construction des blocs logiques, suivi de la profondeur du circuit, et propagation des états.</li>
+
+  <li><strong>executor.py</strong> — Pilote l’exécution complète du circuit : instanciation des composants, gestion des mesures, collecte des résultats et interface avec les modules d’analyse.</li>
+</ul>
+
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+  Cette architecture est conçue pour évoluer : elle peut accueillir des extensions 
+  comme la gestion du bruit, l’intégration de modèles hybrides ou l’interfaçage avec 
+  des frameworks d’apprentissage automatique. Elle constitue une base solide pour 
+  explorer la simulation quantique dans une perspective théorique, tout en restant 
+  ouverte à des usages plus avancés.
+</p>
+</section>
+
+</section>
+
+<section class="hero" id="chapitre-2">
+  <video autoplay muted loop playsinline class="hero-video">
+    <source src="../src/82360-577813663_small.mp4" type="video/mp4" alt='from Pixabay' />
+    Votre navigateur ne supporte pas la vidéo.
+  </video>
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+
+    <h1>CHAPITRE 2<br> Le Qubit et les Portes Quantiques </h1>
+
+  </div>
+</section>
+<section class="section-intro" id="intro">
+
+  <section id="qubit">
+<h2 class="section-title">Le Qubit </h2>
+
+  <div class="chapter-content two-column">
+    <!-- Colonne de gauche : explication de la classe Qubit -->
+    <div class="col-text section-about__text">
+<p class="section-about__text"
+   style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+  La classe <strong>Qubit</strong> incarne notre unité de calcul quantique fondamentale : 
+  elle regroupe en un seul objet les deux amplitudes complexes (α et β) qui définissent 
+  l’état d’un qubit. Grâce à cette encapsulation, on n’a plus à passer manuellement le 
+  vecteur d’état à chaque appel de méthode ; l’accès aux informations clés—angles θ et φ, 
+  probabilités de mesure P(0) et P(1)—se fait directement via l’objet.  
+  Cette organisation modulaire rend le code plus lisible, assure la cohérence des 
+  traitements et simplifie la chaîne d’opérations, qu’il s’agisse de simulations 
+  pédagogiques ou d’expériences quantiques plus poussées.
+</p>
+    </div>
+
+    <!-- Colonne de droite : code Python de la classe Qubit -->
+    <div class="col-code">
+      <pre><code class="language-python">
+# ----------------------------------------------------------------
+# attention : ce code est la propriété exclusive de son auteur.
+# il est fourni pour apprendre, pas pour servir de simple copier-coller.
+# réécrivez-le, comprenez-le, faites-le évoluer : c’est ainsi que vous
+# développerez de vraies compétences. toute utilisation sans autorisation
+# manque de respect envers le travail fourni et enfrain les droits d’auteur.
+# ce code n’est pas parfait, il a été écrit par un non-spécialiste – à vous
+# de l’améliorer.
+# ----------------------------------------------------------------
+
+
+############
+# qubit.py #
+############
+
+
+import cmath
+import math
+import numpy as np
+
+class Qubit:
+
+    def __init__(self):
+        self.reset()
+
+    def reset(self):
+      self.state = np.array([1, 0], dtype=complex)
+
+    def excite(self, mode="one"):
+      if mode == "one":
+          self.state = np.array([0, 1], dtype=complex)
+
+
+    def theta(self):
+        return 2 * cmath.acos(self.state[0]).real
+
+    def theta_degree(self):
+        return math.degrees(self.theta())
+
+    def phi(self):
+        return np.angle(self.state[1])
+
+    def phi_degree(self):
+        return math.degrees(self.phi())
+
+    def p0(self, percent=True):
+        p = abs(self.state[0])**2
+        return p * 100 if percent else p
+
+    def p1(self, percent=True):
+        p = abs(self.state[1])**2
+        return p * 100 if percent else p
+
+    def show(self):
+        print(f"θ = {self.theta_degree():.2f}°, φ = {self.phi_degree():.2f}°")
+        print(f"P(0) = {self.p0():.2f}%, P(1) = {self.p1():.2f}%")
+
+
+      </code></pre>
+    </div>
+  </div>
+
+
+  <p class="section-about__text"
+     style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+    La classe <strong>Qubit</strong> permet de modéliser un qubit à deux niveaux grâce à un vecteur d’état
+    à deux amplitudes complexes. Elle expose des méthodes pour :
+  </p>
+
+  <ul style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+    <li>
+      <strong>__init__()</strong><br>
+      Initialise le qubit en appelant <code>reset()</code>. Les arguments <code>alpha</code> et
+      <code>beta</code> sont ignorés dans cet exemple : on part toujours de l’état fondamental |0⟩.
+    </li>
+    <li>
+      <strong>reset()</strong><br>
+      Réinitialise le qubit à l’état fondamental |0⟩, c’est-à-dire α=1 et β=0.
+    </li>
+    <li>
+      <strong>excite(mode)</strong><br>
+      Met le qubit dans un état excité :  
+      <ul>
+        <li><code>mode="one"</code> → état |1⟩ (α=0, β=1)</li>
+      </ul>
+    </li>
+    <li>
+      <strong>theta()</strong><br>
+      Calcule l’angle θ (en radians) sur la sphère de Bloch via la formule  
+      θ = 2 · arccos(|α|).
+    </li>
+    <li>
+      <strong>theta_degree()</strong><br>
+      Convertit l’angle θ en degrés.
+    </li>
+    <li>
+      <strong>phi()</strong><br>
+      Calcule l’angle φ (en radians) comme argument complexe de β.
+    </li>
+    <li>
+      <strong>phi_degree()</strong><br>
+      Convertit l’angle φ en degrés.
+    </li>
+    <li>
+      <strong>p0(percent)</strong><br>
+      Probabilité de mesure en |0⟩ : |α|². Si <code>percent=True</code>, renvoie un pourcentage.
+    </li>
+    <li>
+      <strong>p1(percent)</strong><br>
+      Probabilité de mesure en |1⟩ : |β|². Si <code>percent=True</code>, renvoie un pourcentage.
+    </li>
+    <li>
+      <strong>show()</strong><br>
+      Affiche dans la console θ, φ, P(0) et P(1) avec un format « θ = xx°, φ = yy° ».
+    </li>
+  </ul>
+
+<p class="section-about__text"
+   style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+  Pour une visualisation plus poussée, on peut représenter l’état du qubit par un vecteur unitaire
+  (x, y, z) dans l’espace de Hilbert. Cette approche sert de
+  base à l’étude des « chocs quantiques » (impulsions de portes unitaries déplaçant le vecteur) et
+  des phénomènes de décohérence (évolution non unitaire vers des états mixtes), ouvrant la voie
+  à l’analyse des interactions entre système et environnement, ainsi qu’à la modélisation des
+  procédés de mesure quantique.
+</p>
+</section>
+
+<br>
+<br>
+<br>
+<br>
+
+<section id="Le-dictionnaire-des-portes-quantiques-fondamentales">
+<h2 class="section-title">Le dictionnaire des portes quantiques fondamentales </h2>
+
+    <div class="col-code">
+      <pre><code class="language-python">
+
+# ----------------------------------------------------------------
+# attention : ce code est la propriété exclusive de son auteur.
+# il est fourni pour apprendre, pas pour servir de simple copier-coller.
+# réécrivez-le, comprenez-le, faites-le évoluer : c’est ainsi que vous
+# développerez de vraies compétences. toute utilisation sans autorisation
+# manque de respect envers le travail fourni et enfrain les droits d’auteur.
+# ce code n’est pas parfait, il a été écrit par un non-spécialiste – à vous
+# de l’améliorer.
+# ----------------------------------------------------------------
+
+
+#################
+# gates_dict.py #
+#################
+
+import numpy as np
+
+
+
+class DictionaryGate:
+
+    @staticmethod
+    def __apply_simple_gate(qubit, gate_matrix):
+        qubit.state = np.dot(gate_matrix, qubit.state)
+
+    @staticmethod
+    def I(qubit):
+        DictionaryGate.__apply_simple_gate(qubit, np.eye(2, dtype=complex))
+
+    @staticmethod
+    def Pauli_X(qubit):
+        DictionaryGate.__apply_simple_gate(qubit, 
+                                           np.array([[0, 1], [1, 0]], dtype=complex))
+
+    @staticmethod
+    def Pauli_Y(qubit):
+        DictionaryGate.__apply_simple_gate(qubit, 
+                                           np.array([[0, 1j], [-1j, 0]], dtype=complex))
+
+    @staticmethod
+    def Pauli_Z(qubit):
+        DictionaryGate.__apply_simple_gate(qubit, 
+                                           np.array([[1, 0], [0, -1]], dtype=complex))
+
+    @staticmethod
+    def Hadamard(qubit):
+        H = (1/np.sqrt(2)) * np.array([[1, 1], [1, -1]], dtype=complex)
+        DictionaryGate.__apply_simple_gate(qubit, H)
+
+    @staticmethod
+    def RX(qubit, theta):
+        RX = np.array([
+            [np.cos(theta/2), -1j*np.sin(theta/2)],
+            [-1j*np.sin(theta/2), np.cos(theta/2)]
+        ], dtype=complex)
+        DictionaryGate.__apply_simple_gate(qubit, RX)
+
+    @staticmethod
+    def RY(qubit, theta):
+        RY = np.array([
+            [np.cos(theta/2), -np.sin(theta/2)],
+            [np.sin(theta/2),  np.cos(theta/2)]
+        ], dtype=complex)
+        DictionaryGate.__apply_simple_gate(qubit, RY)
+
+    @staticmethod
+    def RZ(qubit, theta):
+        RZ = np.array([
+            [np.exp(-1j * theta/2), 0],
+            [0, np.exp(1j * theta/2)]
+        ], dtype=complex)
+        DictionaryGate.__apply_simple_gate(qubit, RZ)
+
+
+      </code></pre>
+    </div>
+  </div>
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;"> La classe <strong>DictionaryGate</strong> propose un ensemble de méthodes statiques permettant d’appliquer les principales portes quantiques monoqubit à un objet <code>Qubit</code>. Chaque porte est représentée par sa matrice 2×2, et agit sur l’état du qubit via une multiplication matricielle. <br><br> Ce dictionnaire n’est pas exhaustif : seules les portes les plus courantes sont implémentées ici (identité, Pauli, Hadamard, rotations RX/RY/RZ). Le lecteur est invité à enrichir cette classe en ajoutant d’autres portes quantiques selon leurs matrices unitaires, en suivant le modèle des méthodes existantes. </p>
+
+<ul style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;"> <li> <strong>__apply_simple_gate(qubit, gate_matrix)</strong><br> Méthode interne qui applique une porte à un qubit en multipliant son vecteur d’état par la matrice de la porte. </li> <li> <strong>I(qubit)</strong><br> Applique la porte Identité : ne modifie pas l’état du qubit. </li> <li> <strong>Pauli_X(qubit)</strong><br> Applique la porte X (équivalent d’un NOT quantique). </li> <li> <strong>Pauli_Y(qubit)</strong><br> Applique la porte Y, introduisant une rotation complexe. </li> <li> <strong>Pauli_Z(qubit)</strong><br> Applique la porte Z, qui inverse la phase du qubit. </li> <li> <strong>Hadamard(qubit)</strong><br> Applique la porte Hadamard, qui crée une superposition équilibrée. </li> <li> <strong>RX(qubit, theta)</strong><br> Applique une rotation autour de l’axe X de la sphère de Bloch. </li> <li> <strong>RY(qubit, theta)</strong><br> Applique une rotation autour de l’axe Y. </li> <li> <strong>RZ(qubit, theta)</strong><br> Applique une rotation autour de l’axe Z. </li> </ul>
+
+<p class="section-about__text"
+   style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+  À partir de cette base, il est également possible d’ajouter des portes à deux qubits, comme la porte <strong>CNOT</strong>, la porte <strong>SWAP</strong> ou d’autres opérations conditionnelles. Ces portes nécessitent une représentation étendue de l’état quantique (vecteur à quatre amplitudes complexes) et une coordination entre deux objets <code>Qubit</code>.
+  <br><br>
+  Leur implémentation repose sur des matrices 4×4 et une logique de composition plus avancée, mais suit les mêmes principes fondamentaux : la multiplication matricielle et la conservation de l’unicité de l’état. Le dictionnaire peut ainsi évoluer vers un simulateur plus complet, intégrant progressivement des portes multi-qubits, des mesures, et même des circuits quantiques.
+</p>
+
+<p class="section-about__text"
+   style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+  L’ajout de portes à deux qubits marque une étape importante dans la modélisation de l’intrication et du contrôle conditionnel en informatique quantique. Ces portes permettent de manipuler des états combinés et de simuler des comportements non classiques, essentiels pour le calcul quantique.
+  <br><br>
+  Parmi les portes fondamentales à deux qubits, la porte <strong>CNOT</strong> (Controlled-NOT) joue un rôle central. Elle agit comme une porte X sur le second qubit (cible) uniquement si le premier qubit (contrôle) est dans l’état |1⟩. Sa matrice 4×4 est la suivante :
+</p>
+
+    <div class="col-code">
+      <pre><code class="language-python">
+
+# ----------------------------------------------------------------
+# attention : ce code est la propriété exclusive de son auteur.
+# il est fourni pour apprendre, pas pour servir de simple copier-coller.
+# réécrivez-le, comprenez-le, faites-le évoluer : c’est ainsi que vous
+# développerez de vraies compétences. toute utilisation sans autorisation
+# manque de respect envers le travail fourni et enfrain les droits d’auteur.
+# ce code n’est pas parfait, il a été écrit par un non-spécialiste – à vous
+# de l’améliorer.
+# ----------------------------------------------------------------
+
+
+
+#################
+# gates_dict.py #
+#################
+
+
+import numpy as np
+
+
+class DictionaryGate:
+
+    # ...
+
+    @staticmethod
+    def _apply_two_qubit_gate(mat: np.ndarray, q1: Qubit, q2: Qubit):
+        psi  = np.kron(q1.state, q2.state)     
+        a,b,c,d = (mat @ psi)
+
+        p0 = abs(a)**2 + abs(b)**2
+        p1 = abs(c)**2 + abs(d)**2
+
+        q1.state = np.array([np.sqrt(p0), np.sqrt(p1)], dtype=complex)
+
+        if p0 > 1e-8:
+            q2.state = np.array([a/np.sqrt(p0), b/np.sqrt(p0)], dtype=complex)
+        else:
+            q2.state = np.array([c/np.sqrt(p1), d/np.sqrt(p1)], dtype=complex)
+
+
+    def CNOT(qubit_control: Qubit, qubit_target: Qubit):
+
+        CNOT_mat = np.array([
+            [1, 0, 0, 0],
+            [0, 1, 0, 0],
+            [0, 0, 0, 1],
+            [0, 0, 1, 0]
+        ], dtype=complex)
+        DictionaryGate._apply_two_qubit_gate(CNOT_mat, qubit_control, qubit_target)
+
+      </code></pre>
+    </div>
+  </div>
+</section>
+
+</section>
+<section class="hero" id="chapitre-3">
+  <video autoplay muted loop playsinline class="hero-video">
+    <source src="../src/82360-577813663_small.mp4" type="video/mp4" alt='from Pixabay' />
+    Votre navigateur ne supporte pas la vidéo.
+  </video>
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+
+    <h1>CHAPITRE 3<br> De l’instruction arithmétique <br> à la syntaxe formelle  </h1>
+
+  </div>
+</section>
+
+
+<section class="section-intro" id="intro">
+
+  <br>
+  <br>
+  <section id="la-mesure-dun-qubit">
+<h2 class="section-title">La mesure d'un qubit</h2>
+
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;"> La réduction du dictionnaire de portes à une instruction mathématique fondamentale, comme l’espérance de Pauli-Z, constitue une abstraction puissante dans le cadre du calcul quantique appliqué à l’apprentissage profond. Par abus de langage, on parle souvent de "mesure" pour désigner cette espérance, bien qu’elle ne corresponde pas à une mesure projective au sens strict. Cette valeur continue, comprise entre −1 et +1, devient un signal différentiable, exploitable comme sortie dans un modèle de classification binaire quantique. Elle permet d’encoder la réponse d’un qubit sans effondrer son état, ce qui est essentiel pour les architectures de type QNN (Quantum Neural Network). <br><br> Mais cette approche ne se limite pas au deep learning. L’espérance d’un observable peut aussi servir dans des domaines comme la chimie quantique, où elle représente l’énergie moyenne d’un système ou la densité électronique locale. Ainsi, une même opération — ici, l’application de la porte Z suivie du calcul de ⟨Z⟩ — peut être interprétée comme une sortie logique, une probabilité, une énergie ou une signature spectroscopique, selon le contexte. Cette polyvalence fait de l’espérance quantique une brique universelle pour la modélisation, l’optimisation et l’interprétation des phénomènes quantiques dans des secteurs aussi variés que l’intelligence artificielle, la physique des matériaux ou la biologie moléculaire. </p>
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;"> Pour rester cohérent avec les usages en apprentissage profond quantique, nous avons choisi d’appeler cette méthode <strong>mesure</strong>, par abus de langage. En réalité, elle ne réalise pas une mesure projective au sens physique — c’est-à-dire un tirage aléatoire suivi d’un effondrement de l’état — mais plutôt le calcul de l’espérance de l’observable Pauli-Z. Cette valeur continue, comprise entre −1 et +1, est utilisée comme signal de sortie dans les modèles quantiques, notamment pour des tâches de classification, de régression ou d’optimisation. Ce glissement sémantique est volontaire : il permet d’unifier les interfaces entre les qubits simulés et les architectures classiques, tout en conservant une interprétation physique rigoureuse. </p>
+
+
+  <!-- Colonne de droite : code Python de la classe Qubit -->
+    <div class="col-code">
+      <pre><code class="language-python">
+# ----------------------------------------------------------------
+# attention : ce code est la propriété exclusive de son auteur.
+# il est fourni pour apprendre, pas pour servir de simple copier-coller.
+# réécrivez-le, comprenez-le, faites-le évoluer : c’est ainsi que vous
+# développerez de vraies compétences. toute utilisation sans autorisation
+# manque de respect envers le travail fourni et enfrain les droits d’auteur.
+# ce code n’est pas parfait, il a été écrit par un non-spécialiste – à vous
+# de l’améliorer.
+# ----------------------------------------------------------------
+
+
+############
+# qubit.py #
+############
+
+
+import cmath
+import math
+import numpy as np
+
+class Qubit:
+
+   #...
+       
+    def mesure(self):
+        state = self.state.copy()
+        DictionaryGate.Pauli_Z(self)
+        self.reset()
+        return np.real(np.vdot(state,self.state))
+
+      </code></pre>
+    </div>
+  </div>
+
+  </section>
+  <section id="vers-une-syntaxe-formelle">
+<h2 class="section-title">Vers une syntaxe formelle pour les circuits quantiques</h2>
+
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;"> Inspirée du démonstrateur de circuits quantiques développé par l’UTC, nous proposons une syntaxe simple et structurée pour décrire les opérations appliquées aux qubits dans un circuit. Cette syntaxe vise à rendre explicite la logique quantique mise en œuvre, tout en facilitant l’évaluation et la visualisation des interactions entre qubits. <br><br> Le principe est le suivant : chaque ligne représente l’évolution d’un qubit individuel. Les opérations sont notées de gauche à droite, séparées par des tirets (<code>-</code>), et chaque symbole correspond à une porte quantique. Par exemple, <code>X</code> pour la porte Pauli-X, <code>H</code> pour Hadamard, <code>I</code> pour l’identité. <br><br> Pour les portes multi-qubits, comme la porte <strong>CNOT</strong>, on utilise une notation indexée pour indiquer les rôles des qubits. Le qubit de contrôle reçoit la notation <code>CNOT#1</code>, et le qubit cible reçoit <code>CNOT#2</code>, chacun sur sa ligne respective. Cette convention permet de représenter clairement les dépendances entre qubits sans ambiguïté. <br><br> Voici quelques exemples illustrant cette syntaxe : </p>
+
+<pre style="background-color: #1a1e2f; color: #d4d4d4; padding: 16px; border-radius: 8px; max-width: 900px; margin: 0 auto 24px;">
+RX(v) - I - CNOT#1
+I       - H - CNOT#2
+</pre>
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;"> Dans cet exemple, le premier qubit reçoit une porte Hadamard, puis reste inchangé, puis devient le contrôle d’une porte CNOT. Le second qubit reçoit une porte X, puis devient la cible de la même CNOT, avant de subir une porte Hadamard. <br><br> Il est également possible d’appliquer plusieurs fois la même porte, comme dans : </p>
+
+<pre style="background-color: #1a1e2f; color: #d4d4d4; padding: 16px; border-radius: 8px; max-width: 900px; margin: 0 auto 24px;">
+I - I - I - I </pre>
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;"> Ce schéma représente un qubit qui reste inchangé pendant quatre étapes. Cette notation linéaire, inspirée du site de l’UTC, permet de construire des circuits complexes tout en gardant une lisibilité maximale. Elle constitue une base solide pour formaliser la logique quantique dans des environnements de simulation, d’apprentissage ou d’optimisation. </p>
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;"> Ce système de syntaxe peut être étendu pour intégrer des portes paramétriques, des mesures, ou des opérations conditionnelles, et s’adapte aussi bien à des modèles de calcul quantique qu’à des applications en chimie quantique ou en intelligence artificielle quantique. </p>
+
+<p style="font-size: 0.9em; text-align: right; max-width: 900px; margin: 0 auto 24px;"> Source de l'inspiration de la syntaxe : <a href="https://www.utc.fr/~wschon/sr06/demonstrateur-algorithmes-quantiques-master/website/_site/portePlusieursQubits.html" target="_blank">UTC – Portes à plusieurs qubits</a> </p> 
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;"> Dans cette syntaxe, nous introduisons également des portes paramétriques comme <strong>RX(v)</strong>, où <code>v</code> représente une valeur numérique associée à la rotation. Il est important de noter que cette valeur <strong>n’intervient pas directement dans la logique du circuit</strong>, mais joue un rôle analogue à celui d’un <strong>poids dans un réseau de neurones</strong>. Elle permet d’ajuster dynamiquement le comportement du circuit sans modifier sa structure fondamentale. Ainsi, <code>RX(π/4)</code> ou <code>RX(0.7)</code> sont des expressions syntaxiques qui encapsulent des paramètres modulables, utiles dans les phases d’apprentissage ou d’optimisation. <br><br> Cette approche renforce l’idée que notre syntaxe ne se limite pas à une description statique : elle constitue une <strong>interface interprétable</strong>, proche d’un langage de programmation quantique. Elle peut être exploitée dans des environnements de simulation, traduite dans des frameworks d’exécution, ou encore manipulée par des algorithmes évolutionnaires. En particulier, elle s’intègre naturellement dans des systèmes de <strong>traitement génétique</strong>, où des circuits sont générés, mutés et évalués automatiquement pour découvrir des configurations inédites et performantes. Chaque ligne devient un génome, chaque porte une mutation, et chaque espérance mesurée une fonction de fitness. <br><br> En combinant cette syntaxe avec des mécanismes d’évaluation comme l’espérance de Pauli-Z, nous posons les bases d’un langage quantique minimaliste mais extensible, capable de modéliser des comportements complexes dans des domaines aussi variés que l’intelligence artificielle, la chimie quantique ou la cryptographie. </p>
+
+</section>
+
+  <br>
+  <br>
+  <br>
+  <br>
+
+<section id="Un-dictionnaire-de-portes-quantiques">
+<h2 class="section-title">Un dictionnaire de portes quantiques</h2>
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;"> La première étape qui nous semble la plus naturelle est de bâtir un véritable dictionnaire de portes au sein de la classe <code>DictionaryGate</code> , afin de pouvoir enregistrer, référencer et étendre dynamiquement chaque opération quantique. Cette organisation centrale constitue le socle d’une notation linéaire cohérente et modulable, qui préserve la lisibilité du circuit tout en autorisant la construction de réseaux de portes unitaires et contrôlées toujours plus complexes. Elle offre une base solide pour formaliser la logique quantique, que ce soit dans un contexte d’apprentissage, de simulation à grande échelle ou d’optimisation d’algorithmes.</p>
+
+
+  <div class="col-code">
+      <pre><code class="language-python">
+
+# ----------------------------------------------------------------
+# attention : ce code est la propriété exclusive de son auteur.
+# il est fourni pour apprendre, pas pour servir de simple copier-coller.
+# réécrivez-le, comprenez-le, faites-le évoluer : c’est ainsi que vous
+# développerez de vraies compétences. toute utilisation sans autorisation
+# manque de respect envers le travail fourni et enfrain les droits d’auteur.
+# ce code n’est pas parfait, il a été écrit par un non-spécialiste – à vous
+# de l’améliorer.
+# ----------------------------------------------------------------
+
+
+
+#################
+# gates_dict.py #
+#################
+
+
+import numpy as np
+
+
+class DictionaryGate:
+
+    # ...
+
+  GATES = {
+      "I":     I,
+      "X":     Pauli_X,
+      "Y":     Pauli_Y,
+      "Z":     Pauli_Z,
+      "H":     Hadamard,
+      "RX":    RX,
+      "RY":    RY,
+      "RZ":    RZ,
+      "CNOT":  CNOT,
+  }
+
+      </code></pre>
+    </div>
+  </div>
+
+<br>
+<br>
+<br>
+<br>
+</section>
+
+<section id="Un-parser-lexer-de-syntaxe-quantique">
+<h2 class="section-title">Un parser/lexer de syntaxe quantique</h2>
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+Maintenant que nous disposons d’un dictionnaire de portes fonctionnel et centralisé au sein de la classe <code>DictionaryGate</code>, la prochaine étape consiste à écrire un <em>parser lexer</em>. Ce composant analysera notre programme, découpera les tokens (noms de portes, paramètres et marqueurs de contrôle) et les redistribuera sous forme d’une grille de nœuds prête à être exécutée par le moteur de calcul quantique.
+</p>
+
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+Lors de son initialisation, <code>QuantumParserLexer</code> prend en entrée à la fois le texte brut du programme quantique et le dictionnaire de portes fourni par <code>DictionaryGate.GATES</code>. En stockant directement ces deux éléments dans <code>self.raw_code</code> et <code>self.GATES</code>, il peut immédiatement lancer <code>_parse()</code> pour transformer le programme en une structure prête à l’exécution.
+</p>
+
+
+
+<div class="col-code">
+  <pre><code class="language-python">
+
+# ----------------------------------------------------------------
+# attention : ce code est la propriété exclusive de son auteur.
+# il est fourni pour apprendre, pas pour servir de simple copier-coller.
+# réécrivez-le, comprenez-le, faites-le évoluer : c’est ainsi que vous
+# développerez de vraies compétences. toute utilisation sans autorisation
+# manque de respect envers le travail fourni et enfrain les droits d’auteur.
+# ce code n’est pas parfait, il a été écrit par un non-spécialiste – à vous
+# de l’améliorer.
+# ----------------------------------------------------------------
+
+
+
+#####################
+# syntax_manager.py #
+#####################
+
+
+class QuantumParserLexer:
+
+    def __init__(self, code: str):
+        self.raw_code = code
+        # si pas de dict passé, on utilise celui de DictionaryGate
+        self.GATES =  DictionaryGate.GATES
+        self.num_qubits = 0
+        self.circuit = []
+        self._parse()
+    
+    #...
+   
+  </code></pre>
+</div>
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+En appelant <code>_parse()</code> dès la fin de <code>__init__</code> — où <code>self.raw_code</code> et <code>self.GATES</code> ont été initialisés — le parser entre immédiatement en phase d’analyse. À chaque itération, <code>_parse</code> fait appel à <code>_parse_token</code> pour découper et normaliser les jetons issus du programme. Cette coordination entre la configuration initiale et le traitement lexical garantit que chaque instruction (porte, paramètres, marqueur de contrôle) est correctement extraite et préparée pour la construction finale du circuit.
+</p>
+
+
+
+<div class="col-code">
+  <pre><code class="language-python">
+
+# ----------------------------------------------------------------
+# attention : ce code est la propriété exclusive de son auteur.
+# il est fourni pour apprendre, pas pour servir de simple copier-coller.
+# réécrivez-le, comprenez-le, faites-le évoluer : c’est ainsi que vous
+# développerez de vraies compétences. toute utilisation sans autorisation
+# manque de respect envers le travail fourni et enfrain les droits d’auteur.
+# ce code n’est pas parfait, il a été écrit par un non-spécialiste – à vous
+# de l’améliorer.
+# ----------------------------------------------------------------
+
+
+
+#####################
+# syntax_manager.py #
+#####################
+
+
+class QuantumParserLexer:
+
+    #...
+
+    def _parse_token(self, token: str):
+        t = token.strip()
+        if t.startswith('[') and t.endswith(']'):
+            t = t[1:-1].strip()
+        if '#' in t:
+            name, mark = t.split('#', 1)
+            return name, [int(mark)]
+        m = re.match(r'^(\w+)\((.*)\)$', t)
+        if m:
+            name, params_str = m.group(1), m.group(2)
+            params = []
+            for p in params_str.split(','):
+                p = p.strip()
+                if p in ('pi', 'π'):
+                    val = np.pi
+                else:
+                    val = float(p)
+                params.append(val)
+            return name, params
+        return t, []
+
+   
+  </code></pre>
+</div>
+
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+La première étape de <code>_parse</code> consiste à extraire toutes les lignes non vides du programme et à en déduire le nombre de qubits. Chaque ligne, correspondant à un fil quantique, est ensuite découpée en segments à l’aide de la fonction <code>split_top</code>, qui identifie les séparateurs “–” hors parenthèses. Cette opération produit une grille rectangulaire de jetons, alignant verticalement chaque étape temporelle sur tous les qubits.
+</p>
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+Dans la phase finale de <code>_parse</code>, le parser parcourt cette grille de jetons ligne par ligne et colonne par colonne : pour chaque jeton il vérifie que le nom de la porte figure bien dans <code>self.GATES</code>, récupère la référence à la fonction de porte et la liste des paramètres, puis assemble un nœud complet <code>{ "door", "params", "string" }</code>. L’ensemble de ces nœuds forme <code>self.circuit</code>, la structure orchestrant l’application séquentielle de toutes les opérations quantiques décrites dans le programme.
+</p>
+
+<div class="col-code">
+  <pre><code class="language-python">
+
+# ----------------------------------------------------------------
+# attention : ce code est la propriété exclusive de son auteur.
+# il est fourni pour apprendre, pas pour servir de simple copier-coller.
+# réécrivez-le, comprenez-le, faites-le évoluer : c’est ainsi que vous
+# développerez de vraies compétences. toute utilisation sans autorisation
+# manque de respect envers le travail fourni et enfrain les droits d’auteur.
+# ce code n’est pas parfait, il a été écrit par un non-spécialiste – à vous
+# de l’améliorer.
+# ----------------------------------------------------------------
+
+
+
+#####################
+# syntax_manager.py #
+#####################
+
+
+class QuantumParserLexer:
+
+    #...
+
+    def _parse(self):
+        lines = [l for l in self.raw_code.splitlines() if l.strip()]
+        self.num_qubits = len(lines)
+
+        def split_top(line):
+            toks, cur, lvl = [], '', 0
+            for ch in line:
+                if ch == '(': lvl += 1
+                elif ch == ')': lvl -= 1
+                if ch == '-' and lvl == 0:
+                    toks.append(cur.strip()); cur = ''
+                else:
+                    cur += ch
+            if cur.strip(): toks.append(cur.strip())
+            return toks
+
+        grid = [split_top(l) for l in lines]
+        ncols = max(len(r) for r in grid)
+        for r in grid:
+            r.extend(["I"] * (ncols - len(r)))
+
+        for row in grid:
+            node_row = []
+            for tok in row:
+                name, params = self._parse_token(tok)
+                if name not in self.GATES:
+                    raise ValueError(f"Porte inconnue : '{name}'")
+                node_row.append({
+                    "door":   self.GATES[name],
+                    "params": params,
+                    "string": f"[{name}{'(' + ','.join(map(str, params)) 
+                                            + ')' if params else ''}]"
+                })
+            self.circuit.append(node_row)
+
+
+   
+  </code></pre>
+</div>
+</section>
+</section>
+</section>
+
+
+<section class="hero" id="chapitre-4">
+  <video autoplay muted loop playsinline class="hero-video">
+    <source src="../src/82360-577813663_small.mp4" type="video/mp4" alt='from Pixabay' />
+    Votre navigateur ne supporte pas la vidéo.
+  </video>
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+
+  <h1>CHAPITRE 4 <br> Une simulation évolutive</h1>
+
+  </div>
+</section>
+
+<section class="section-intro" id="intro">
+<section id="interet-evolutivite">
+<h2 class="section-title">L'interet de cette évolutivité</h2>
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+L’intérêt de cette extension par expression est double. D’une part, elle ouvre la voie à une abstraction progressive : en définissant des portes composites comme des séquences de transformations élémentaires, on peut construire des blocs logiques plus riches, explorer des patterns récurrents, et faciliter la découverte de structures quantiques plus complexes. Cette approche est particulièrement adaptée à un système qui vise à s’étendre vers des architectures plus larges ou à intégrer des stratégies d’optimisation. D’autre part, elle permet de faire évoluer la structure du dictionnaire sans modifier le cœur du système, ce qui favorise l’évolutivité et la modularité du code.
+</p>
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+Au-delà de l’aspect technique, cette capacité à composer des portes par expression favorise également la construction de simulations théoriques plus robustes et plus expressives. En encapsulant des séquences d’opérations dans des blocs réutilisables, on peut modéliser des comportements complexes avec clarté, tout en facilitant l’analyse et la vérification formelle. Ce principe de modularité rend le système particulièrement adaptable à d’autres domaines émergents comme la génétique quantique, le raisonnement logique quantique ou encore les traitements hybrides pilotés par des modèles de langage (LLM). Dans ces contextes, la capacité à définir dynamiquement des primitives opératoires permet de tester rapidement des hypothèses, de simuler des architectures inédites, et d’explorer des interactions entre couches computationnelles classiques et quantiques. Ce type de structure extensible constitue donc une base précieuse pour la recherche interdisciplinaire et l’expérimentation algorithmique.
+</p>
+
+</section>
+
+<br>
+<br>
+
+<section id="extension-dictionnaire">
+
+<h2 class="section-title">Extension du dictionnaire de portes quantiques</h2>
+
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+Cette stratégie d’augmentation par expression s’intègre naturellement dans notre dictionnaire de portes quantiques, qui agit comme un registre centralisé des opérations disponibles. En ajoutant dynamiquement des définitions composites, on enrichit ce dictionnaire sans altérer sa structure interne, ce qui garantit à la fois la compatibilité descendante et la flexibilité ascendante. Chaque nouvelle porte devient une entrée autonome, interprétable par le parser et exécutable par le simulateur, exactement comme les portes élémentaires. Ce mécanisme permet donc de faire évoluer le système sans rupture, en conservant une interface uniforme tout en augmentant sa capacité descriptive. Il prépare le terrain pour une montée en abstraction, où les blocs logiques deviennent eux-mêmes des primitives, et où le dictionnaire joue un rôle actif dans la formalisation des architectures quantiques.
+</p>
+
+
+  <div class="col-code">
+      <pre><code class="language-python">
+
+# ----------------------------------------------------------------
+# attention : ce code est la propriété exclusive de son auteur.
+# il est fourni pour apprendre, pas pour servir de simple copier-coller.
+# réécrivez-le, comprenez-le, faites-le évoluer : c’est ainsi que vous
+# développerez de vraies compétences. toute utilisation sans autorisation
+# manque de respect envers le travail fourni et enfrain les droits d’auteur.
+# ce code n’est pas parfait, il a été écrit par un non-spécialiste – à vous
+# de l’améliorer.
+# ----------------------------------------------------------------
+
+
+
+#################
+# gates_dict.py #
+#################
+
+
+import numpy as np
+
+
+class DictionaryGate:
+
+    # ...
+
+    @classmethod
+    def add_gate(cls, name: str, pattern: str):
+    
+        def composite(qubit, v=None):
+            for part in pattern.split("-"):
+                if "(" in part:
+                    gate_name, arg = part[:-1].split("(")
+                    val = v if arg == "v" else float(arg)
+                    cls.GATES[gate_name](qubit, val)
+                else:
+                    cls.GATES[part](qubit)
+        cls.GATES[name] = composite
+
+
+# Logique d'utilisation :
+
+# DictionaryGate.add_gate("G", "RX(v)-H")
+      </code></pre>
+    </div>
+  </div>
+
+
+  <p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+La méthode <code>add_gate</code> permet d’étendre dynamiquement le registre de portes quantiques en déclarant une nouvelle porte composite à partir d’un nom et d’un motif textuel. Elle crée une fonction interne <code>composite</code> qui, lorsqu’on invoque la porte, découpe la chaîne <code>pattern</code> sur les tirets, identifie pour chaque segment s’il s’agit d’une porte paramétrée (présence de parenthèses) ou d’une porte simple, remplace le placeholder <code>v</code> par le paramètre fourni lors de l’appel, convertit les littéraux numériques en <code>float</code>, puis enchaîne les appels correspondants dans <code>GATES</code>. Enfin, elle enregistre cette fonction composite sous la clé <code>name</code> dans le dictionnaire <code>GATES</code>, rendant la nouvelle porte immédiatement disponible pour le parser et la simulation quantique.
+<br> <br>On pourrait également envisager d’utiliser plusieurs portes <code>RX</code> avec des valeurs distinctes pour prendre en charge une notation de type <code>G(v,v)</code> (ou plus), en adaptant le parsing pour gérer plusieurs placeholders et créer des portes composites à plusieurs paramètres. Toutefois, cette extension n’est pas implémentée ici ; le parser supporte pour l’instant un unique placeholder <code>v</code> et des portes composites à un seul paramètre.</p>
+
+
+</section>
+
+</section>
+
+
+<section class="hero" id="chapitre-final">
+  <video autoplay muted loop playsinline class="hero-video">
+    <source src="../src/82360-577813663_small.mp4" type="video/mp4" alt='from Pixabay' />
+    Votre navigateur ne supporte pas la vidéo.
+  </video>
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+
+<h1>CHAPITRE FINAL <br>
+  Orchestration de la simulation quantique </h1>
+
+  </div>
+</section>
+<section class="section-intro" id="intro">
+
+  <br>
+  <br>
+
+<section id="Orchestrer-une-simulation-theorique">
+<h2 class="section-title">Orchestrer une simulation théorique</h2>
+
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+À présent, disposant de notre unité fondamentale, d’un dictionnaire d’opérations évolutif et d’un parser assurant la répartition correcte des instructions, il convient d’orchestrer ces composants dans un seul module cohérent. Cette orchestration unifiée coordonne l’initialisation des états, l’application séquentielle ou parallèle des portes et la collecte des résultats pour piloter l’ensemble du calcul quantique. En centralisant le flux de contrôle, on garantit la cohérence du déroulement, la traçabilité des étapes et la flexibilité nécessaire à l’intégration de nouvelles fonctionnalités ou optimisations.
+</p>
+
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+Cette orientation nous conduit à la création d’une classe orchestratrice qui centralise la structure et le déroulement des calculs de notre simulateur. Elle reçoit en entrée un programme quantique, expose une méthode <code>run()</code> pour enchaîner l’application des portes et une méthode <code>mesure()</code> pour collecter les résultats finaux. À chaque appel à <code>run()</code>, la classe initialise automatiquement les qubits à leur état de départ, invoque le parser pour décomposer le code en portes élémentaires et composites, applique ces opérations dans l’ordre, puis déclenche <code>mesure()</code> à la fin du parcours. Cette architecture end-to-end assure un flux de contrôle unifié, facilite l’extension ou l’optimisation du simulateur et garantit la traçabilité des états à chaque étape de la simulation.
+</p>
+
+<div class="col-code">
+      <pre><code class="language-python">
+
+# ----------------------------------------------------------------
+# attention : ce code est la propriété exclusive de son auteur.
+# il est fourni pour apprendre, pas pour servir de simple copier-coller.
+# réécrivez-le, comprenez-le, faites-le évoluer : c’est ainsi que vous
+# développerez de vraies compétences. toute utilisation sans autorisation
+# manque de respect envers le travail fourni et enfrain les droits d’auteur.
+# ce code n’est pas parfait, il a été écrit par un non-spécialiste – à vous
+# de l’améliorer.
+# ----------------------------------------------------------------
+
+
+
+#####################
+# simulator_core.py #
+#####################
+
+
+class QuantumSImulation:
+
+    def __init__(self, program):
+
+        self.program = program
+        parser =  QuantumParserLexer(self.program)
+        self.parsing  = parser.circuit
+        self.qubits  = [Qubit() for _ in range(parser.num_qubits)]
+
+    def run(self):
+        ncols = len(self.parsing[0])
+        for col in range(ncols):
+            for row in range(len(self.qubits)):
+                node = self.parsing[row][col]
+                gate = node["door"]
+                params = node["params"]
+                if gate.__name__ == "CNOT":
+                    if  params[0] == 1:
+                        print(params)
+                        control = self.qubits[row]
+                        target = Qubit()
+                        for r in range(len(self.qubits)):
+                            if (r != row 
+                            and self.parsing[r][col]["door"].__func__.__name__ == "CNOT" 
+                            and self.parsing[r][col]["params"][0] == 2 ):
+                                    target = self.qubits[r]
+                        gate(control, target)
+                else:
+                    gate(self.qubits[row], *params)
+        
+        return self.M()
+
+    def M(self):
+        
+        mesures = []
+        
+        for qubit in self.qubits:
+           mesures.append(qubit.mesure())
+        
+        return mesures
+
+#Exemple de main 
+
+# def main():
+
+#     program = """
+#     CNOT#1-G(8.5)-Z
+#     CNOT#2-RY(8.5)-I
+#     """
+#     sim = QuantumSImulation(program)
+
+#     mesures = sim.run()
+
+#     print("\n=== Mesures finales ===")
+#     for i, m in enumerate(mesures):
+#         print(f"Q{i}: {m:.2f}")
+
+      </code></pre>
+    </div>
+  </div>
+
+</section>
+
+<section id="Orchestrer-une-simulation-quantique-naturelle">
+<h2 class="section-title">Orchestrer une simulation quantique naturelle</h2>
+
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+Pour aller plus loin, on peut enrichir le simulateur en introduisant explicitement la décohérence et l’évolution dans un espace de Hilbert de dimension paramétrable. Concrètement, chaque qubit devient une sphère de Bloch évoluant dans cet espace élargi, et ses trajectoires sont recalculées à chaque itération de <code>run()</code> sous l’effet des portes. On peut ainsi détecter les « collisions » entre trajectoires et modéliser les phénomènes de décohérence en injectant, à chaque porte appliquée, des facteurs de bruits ou d’erreur sur l’état du qubit pour mettre en évidence les perturbations quantiques. Cette approche hybride ouvre la voie à des simulations plus réalistes, où l’on peut même envisager d’incorporer, à bas niveau, des termes inspirés de la gravité quantique afin d’explorer l’impact de couplages fondamentaux sur l’évolution des états quantiques.
+</p></section>
+</section>
+<section class="hero" id="conclusion">
+  <video autoplay muted loop playsinline class="hero-video">
+    <source src="../src/82360-577813663_small.mp4" type="video/mp4" alt='from Pixabay' />
+    Votre navigateur ne supporte pas la vidéo.
+  </video>
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+
+<h1>CONCLUSION :  <br> La fin d’un voyage quantique</h1>
+  </div>
+</section>
+
+<section class="section-intro" id="intro">
+
+  <section id="Un-parcours-d-apprentissage">
+<h2 class="section-title">Un parcours d'apprentissage</h2>
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+Vous avez d’abord posé les fondations de votre simulateur quantique : définition des qubits, assemblage des portes logiques et mise en œuvre d’un moteur de calcul fidèle aux lois de l’algèbre quantique. Chaque phase de compilation et de test a validé la superposition, confirmé l’intrication et mesuré la fidélité des opérations. En orchestrant l’enchaînement des portes et en instrumentant vos routines de mesure, vous avez transformé la théorie pure en un protocole exécutable, capable de reproduire les phénomènes quantiques dans un cadre contrôlé et reproductible.</p>
+</section>
+
+<section id="Genese-d-un-Genome-Quantique">
+<h2 class="section-title">Genèse d’un Génome Quantique</h2>
+
+<p class="section-about__text" style="max-width: 900px; margin: 0 auto 24px; line-height: 1.8; text-align: justify;">
+
+Vous avez désormais franchi le seuil d’une odyssée quantique où la compréhension des phénomènes coexiste avec la création algorithmique. Forts de cette maîtrise, vous détenez la clé pour forger un « génome » d’algorithmes : un organisme numérique où chaque qubit en superposition explore des architectures inédites, où la sélection et la mutation s’opèrent au rythme de l’intrication, et où la convergence du deep learning devient une symphonie vivante.
+<br><br>
+À l’intersection de la génétique algorithmique et de la physique quantique, vous installez un mécanisme de réflexion informationnelle — un miroir dynamique capable d’affiner sans cesse ses propres modèles. Plus qu’une simple simulation, c’est un acte de création : un voyage intérieur et infiniment ouvert, où chaque itération fait naître un peu plus de lumière dans les arcanes du possible. Plongez, maintenant, dans cette nouvelle ère : celle où la convergence ne se cherche plus, elle se cultive et se pérennise au cœur même de l’intrication.
+</section>
+</section>
+
+</body>
+</html>
